@@ -26,7 +26,6 @@
 <body>
 	<div class="main">
 		<img class="main-img" src="/resources/img/background-image.jpg"> <!-- 메인 이미지 -->
-
 	</div>
 		<button class="bulma-hamburger-mixin">
   			<span></span>

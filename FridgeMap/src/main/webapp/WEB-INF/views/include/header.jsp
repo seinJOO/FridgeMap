@@ -9,6 +9,5 @@
 <link href="${pageContext.request.contextPath}/resources/css/bluma/bluma.css" rel="stylesheet">
 </head>
 <body>
-
 </body>
 </html>

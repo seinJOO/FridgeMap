@@ -25,4 +25,39 @@
 		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.3.xsd
 		http://www.springframework.org/schema/lang http://www.springframework.org/schema/lang/spring-lang-4.3.xsd
 		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.3.xsd">
+		
+		
+		
+			
+	<!-- hikariCP 빈으로 등록하기 -->
+	<bean id="hikariConfig" class="com.zaxxer.hikari.HikariConfig">
+		<property name="driverClassName" value="com.mysql.cj.jdbc.Driver" />
+		<property name="jdbcUrl" value="jdbc:oracle:thin:@localhost:3306/team?serverTimezone=Asia/Seoul" />
+		<property name="username" value="team" />
+		<property name="password" value="####" />
+	</bean>
+	
+	<!-- DataSource 설정 -->
+	<bean id="ds" class="com.zaxxer.hikari.HikariDataSource">
+		<constructor-arg ref="hikariConfig"></constructor-arg>
+	</bean>
+	
+	<!-- JDBC 템플릿 설정 - JDBC 템플릿 사용을 위한 bean 추가-->
+	<bean id="jdbcTemplate" class="org.springframework.jdbc.core.JdbcTemplate">
+	<property name="dataSource" ref="ds"></property> <!-- jdbcTemplate으로 객체를 생성할 때 인자값으로 id="ds"인 bean의 인자값을 넘겨준다 -->
+	</bean>
+	
+	<!--  MyBatis 사용의 핵심 객체 SQLsessionFactory 추가  -->
+ 	<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+		<property name="dataSource" ref="ds"/>
+	</bean>
+		<!-- 동일한 패키지의 매퍼 스캔을 중복시키면 오류가 발생하니까 꼭 주의하기 ^^***-->
+
+	
+<!-- 	MyBatis의 생성한 매퍼 패키지를 스캔하는 태그 -->
+	<mybatis-spring:scan base-package="com.zerock.board.mapper"/>
+	<mybatis-spring:scan base-package="com.zerock.user.mapper"/>
+	<mybatis-spring:scan base-package="com.zerock.fridge.mapper"/>
+
+	
 </beans>

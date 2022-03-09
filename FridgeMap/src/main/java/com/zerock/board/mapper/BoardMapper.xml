@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+	PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.zerock.board.mapper.BoardMapper">
+
+<select id="getAllList" parameterType="com.zerock.board.command.Criteria" resultType="com.zerock.board.command.BoardVO">
+		<!-- SELECT * FROM board ORDER BY board_num DESC LIMIT #{pageStart},#{count} -->
+		SELECT *, (SELECT COUNT(*) FROM comment where comment.board_num = board.board_num) as cmtCount FROM board ORDER BY board_num DESC LIMIT #{pageStart},#{count};
+</select>
+
+<select id="getCategoryList" parameterType="com.zerock.board.command.Criteria" resultType="com.zerock.board.command.BoardVO">
+		<!-- SELECT * FROM board  -->
+		SELECT *, (SELECT COUNT(*) FROM comment where comment.board_num = board.board_num) as cmtCount FROM board
+		<if test="board_category != 'main'">
+		WHERE board_category=#{board_category}
+		</if> 
+		ORDER BY board_num DESC limit #{pageStart},#{count}
+</select>
+
+<select id="getKeywordList" parameterType="com.zerock.board.command.Criteria" resultType="com.zerock.board.command.BoardVO">
+   SELECT *, (SELECT COUNT(*) FROM comment where comment.board_num = board.board_num) as cmtCount FROM board WHERE (board_title LIKE CONCAT('%',#{keyword},'%') OR board_content LIKE CONCAT('%',#{keyword},'%'))
+   <if test="board_category != 'main'">
+	AND board_category = #{board_category}
+	</if>
+   ORDER BY board_num DESC LIMIT #{pageStart},#{count}
+</select>
+
+<select id="getTotal" resultType="int">
+	SELECT COUNT(*) FROM board
+</select>
+
+<select id="getCateTotal" parameterType="com.zerock.board.command.Criteria" resultType="int">
+	SELECT COUNT(*) FROM board 
+	<if test="board_category != 'main'">
+	WHERE board_category=#{board_category}
+	</if>
+</select>
+
+<select id="getKeyTotal" parameterType="com.zerock.board.command.Criteria" resultType="int">
+	SELECT count(*) FROM board WHERE board_title LIKE CONCAT('%',#{keyword},'%')
+	<if test="board_category != 'main'">
+	AND board_category = #{board_category}
+	</if>	
+</select>
+
+<insert id="regist" parameterType="com.zerock.board.command.BoardVO"><!-- 이미지 파일 적용 전 쿼리 ㅠㅠㅠㅠ -->
+	INSERT INTO board (board_category, user_id, user_nick, board_title, board_content) VALUES (#{board_category},#{user_id},#{user_nick},#{board_title},#{board_content})
+</insert>
+
+<select id="getContent" resultType ="com.zerock.board.command.BoardVO">
+	<!-- SELECT * FROM board WHERE board_num = #{board_num} -->
+	SELECT *, (SELECT COUNT(*) FROM comment WHERE board_num = #{board_num}) as cmtCount FROM board WHERE board_num = #{board_num}
+</select>
+
+<select id="getComment" resultType ="com.zerock.board.command.CommentVO">
+	SELECT * FROM comment WHERE board_num = #{board_num} ORDER BY comment_num
+</select>
+
+<update id="upHit" parameterType="int">
+	UPDATE board SET board_view = board_view + 1 WHERE board_num = #{board_num}
+</update>
+
+<insert id="writeComment" parameterType="com.zerock.board.command.CommentVO">
+	INSERT INTO comment (board_num, user_nick, comment_content) VALUES (#{board_num},#{user_nick},#{comment_content});
+</insert>
+
+<update id="modifyContent" parameterType="com.zerock.board.command.BoardVO">
+	UPDATE board SET board_category = #{board_category},board_title=#{board_title},board_content=#{board_content} WHERE board_num = #{board_num}
+</update>
+
+<insert id="commentAlert" parameterType="com.zerock.board.command.AlertVO">
+	INSERT INTO board_alert(user_id, board_num, alert_type) VALUES (#{user_id},#{board_num},'comment')
+</insert>
+
+<update id="updateComment" parameterType="com.zerock.board.command.CommentVO">
+	UPDATE comment SET comment_content = #{comment_content} WHERE comment_num = #{comment_num}
+</update>
+
+<update id="deleteComment" parameterType="com.zerock.board.command.CommentVO">
+	UPDATE comment SET user_nick='', comment_content='삭제된 댓글입니다' WHERE comment_num = #{comment_num}
+</update>
+
+<delete id="deleteContent" parameterType="int">
+	DELETE FROM board WHERE board_num = #{board_num}
+</delete>
+
+<select id="userLiked" parameterType = "com.zerock.board.command.LikeVO" resultType = "int">
+	SELECT COUNT(*) FROM heart WHERE user_id = #{user_id} AND board_num = #{board_num}
+</select>
+
+<select id="getLikes" parameterType="int" resultType="int">
+	SELECT board_like FROM board WHERE board_num = #{board_num}
+</select>
+
+<select id="getAllLikes" resultType="com.zerock.board.command.LikeVO">
+	SELECT * FROM heart
+</select>
+<!-- 좋아요 추가 시 쿼리 -->
+<insert id="plusLike" parameterType="com.zerock.board.command.LikeVO">
+	INSERT INTO heart(board_num, user_id) VALUES (#{board_num},#{user_id})
+</insert>
+
+<update id="plusBoard" parameterType="com.zerock.board.command.LikeVO">
+	UPDATE board SET board_like = board_like + 1 WHERE board_num = #{board_num}
+</update>
+
+<insert id="alertLike" parameterType="com.zerock.board.command.LikeVO">
+	INSERT INTO board_alert(user_id, board_num, alert_type) VALUES( (SELECT user_id FROM board WHERE board_num = #{board_num}),#{board_num},'like')
+</insert>
+
+<!-- 좋아요 삭제 시 쿼리 -->
+
+<delete id="minusLike" parameterType="com.zerock.board.command.LikeVO">
+	DELETE FROM heart WHERE board_num = #{board_num} AND user_id = #{user_id}
+</delete>
+<update id="minusBoard" parameterType="com.zerock.board.command.LikeVO">
+	UPDATE board SET board_like = board_like - 1 WHERE board_num = #{board_num}
+</update>
+<delete id="alertUnlike" parameterType="com.zerock.board.command.LikeVO">
+	DELETE FROM board_alert WHERE user_id= (SELECT user_id FROM board WHERE board_num = #{board_num}) AND board_num = #{board_num} AND alert_type='like'
+</delete>
+</mapper>

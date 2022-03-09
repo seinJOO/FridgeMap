@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+	PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- 
+
+public int nowYear();
+	public int nowMonth();
+	public int nowDate(); -->
+<mapper namespace="com.zerock.budget.mapper.BudgetMapper">
+	<select id="nowYear" resultType="int">
+	SELECT YEAR(NOW())
+	</select>
+	<select id="nowMonth" resultType="int">
+	SELECT MONTH(NOW())
+	</select>
+	<select id="nowDate" resultType="int">
+	SELECT DAY(NOW())
+	</select>
+	<select id="getStartDay" parameterType="com.zerock.budget.command.DateVO" resultType="int">
+		SELECT DAYOFWEEK(#{fullDate}) as startDay from dual
+	</select>
+	<select id="getEndDate" parameterType="com.zerock.budget.command.DateVO" resultType="int">
+		SELECT DATE_FORMAT(last_day(#{fullDate}), '%d') as endDate from dual
+	</select>	
+	<select id="getBuyList" parameterType="com.zerock.budget.command.DateVO" resultType="com.zerock.budget.command.PriceVO">
+	select DATE_FORMAT(fridge_purchase, '%d') as buyDate, food_id, fridge_quantity, fridge_price from fridgemap.fridge where fridge_purchase = #{buyDate} AND user_id = 'test' ORDER BY buyDate;</select>
+	<select id="getPrice" parameterType="com.zerock.budget.command.DateVO" resultType="com.zerock.budget.command.PriceVO">
+	SELECT DATE_FORMAT(fridge_purchase, '%d') as buyDate, SUM(fridge_price) as fridge_price from fridgemap.fridge where fridge_purchase between date(#{fullDate}) and date(#{nextFullDate}) and user_id = 'test' GROUP BY buyDate ORDER BY buyDate
+	</select>
+	<select id="getTotalSpend" parameterType="com.zerock.budget.command.DateVO" resultType="String">
+	    SELECT SUM(fridge_price) FROM fridgemap.fridge WHERE user_id = 'test' and fridge_purchase between date(#{pickStartDate}) and date(#{pickEndDate})
+	</select>	
+	
+</mapper>

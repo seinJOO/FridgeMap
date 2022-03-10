@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.zerock.fridge.mapper.MyFridgeMapper">
+
+<select id="getAllList" resultType="com.zerock.fridge.command.FridgeVO">
+	SELECT * FROM fridge 
+	WHERE user_id = #{user_id}
+	ORDER BY fridge_expdate
+	LIMIT 0, #{count}
+</select>
+
+<select id="getFrozenList" resultType="com.zerock.fridge.command.FridgeVO">
+	SELECT * FROM fridge 
+	WHERE user_id = #{user_id} AND fridge_keep = '냉동'
+	ORDER BY fridge_expdate
+	LIMIT 0, #{count}
+</select>
+
+<select id="getRefriList" resultType="com.zerock.fridge.command.FridgeVO">
+	SELECT * FROM fridge 
+	WHERE user_id = #{user_id} AND fridge_keep = '냉장'
+	ORDER BY fridge_expdate
+	LIMIT 0, #{count}
+</select>
+
+<select id="getRoomList" resultType="com.zerock.fridge.command.FridgeVO">
+	SELECT * FROM fridge 
+	WHERE user_id = #{user_id} AND fridge_keep = '실온'
+	ORDER BY fridge_expdate
+	LIMIT 0, #{count}
+</select>
+
+<select id="getFoodList" resultType="com.zerock.fridge.command.FoodVO">
+	SELECT * FROM food
+</select>
+
+<select id="getExpdateOver" parameterType="String" resultType="int">
+<![CDATA[
+	SELECT COUNT(*) FROM fridge WHERE user_id = #{user_id} AND fridge_expdate < date(now());
+]]>
+</select>
+
+<update id="updateItem" parameterType="com.zerock.fridge.command.FridgeVO">
+	UPDATE fridge SET fridge_quantity=#{fridge_quantity}, fridge_keep=#{fridge_keep},
+	fridge_purchase=#{fridge_purchase}, fridge_expdate=#{fridge_expdate}, fridge_price=#{fridge_price}
+	WHERE fridge_num=#{fridge_num}
+</update>
+
+<delete id="deleteItem">
+	DELETE FROM fridge 
+	WHERE user_id = #{user_id} AND fridge_num = #{num}
+</delete>
+
+<select id="getCategory" parameterType="String" resultType="com.zerock.fridge.command.FoodVO">
+	SELECT * FROM food 
+	WHERE food_category = #{category}
+	ORDER BY food_name
+</select>
+
+<select id="getFoodItem" parameterType="String" resultType="com.zerock.fridge.command.FoodVO">
+	SELECT * FROM food
+	WHERE food_id = #{id}
+</select>
+
+<insert id="insertItem" parameterType="com.zerock.fridge.command.FridgeVO">
+	INSERT INTO fridge(user_id, food_id, fridge_category, fridge_name, fridge_quantity, fridge_keep, fridge_purchase, fridge_expdate, fridge_price)
+	VALUES(#{user_id}, #{food_id}, #{fridge_category}, #{fridge_name}, #{fridge_quantity}, #{fridge_keep}, #{fridge_purchase}, #{fridge_expdate}, #{fridge_price})
+</insert>
+
+<delete id="deleteExpdateOverItems" parameterType="String">
+<![CDATA[
+	DELETE FROM fridge 
+	WHERE user_id = #{user_id} AND fridge_expdate < date(now());
+]]>
+</delete>
+
+<select id="getAllListCount" parameterType="String" resultType="int">
+<![CDATA[
+	SELECT COUNT(*) FROM fridge
+	WHERE user_id = #{user_id}
+]]>
+</select>
+
+<select id="getFrozenListCount" parameterType="String" resultType="int">
+<![CDATA[
+	SELECT COUNT(*) FROM fridge
+	WHERE user_id = #{user_id} AND fridge_keep = '냉동'
+]]>
+</select>
+
+<select id="getRefriListCount" parameterType="String" resultType="int">
+<![CDATA[
+	SELECT COUNT(*) FROM fridge
+	WHERE user_id = #{user_id} AND fridge_keep = '냉장'
+]]>
+</select>
+
+<select id="getRoomListCount" parameterType="String" resultType="int">
+<![CDATA[
+	SELECT COUNT(*) FROM fridge
+	WHERE user_id = #{user_id} AND fridge_keep = '실온'
+]]>
+</select>
+
+<select id="getSearchList" resultType="com.zerock.fridge.command.FridgeVO">
+	SELECT * FROM fridge
+	WHERE user_id = #{user_id} AND
+	<if test="val.equals('all')"> (fridge_keep = '냉동' OR fridge_keep = '냉장' OR fridge_keep = '실온') AND</if>
+	<if test="val.equals('frozen')"> fridge_keep = '냉동' AND</if>
+	<if test="val.equals('refri')"> fridge_keep = '냉장' AND</if>
+	<if test="val.equals('room')"> fridge_keep = '실온' AND</if>
+	<if test="searchOption.equals('category')"> fridge_category LIKE concat('%',#{searchVal},'%') </if>
+	<if test="searchOption.equals('name')"> fridge_name LIKE concat('%',#{searchVal},'%') </if>
+	ORDER BY fridge_expdate
+</select>
+
+<select id="getSearchListCount" resultType="int">
+	SELECT Count(*) FROM fridge
+	WHERE user_id = #{user_id} AND
+	<if test="val.equals('all')"> (fridge_keep = '냉동' OR fridge_keep = '냉장' OR fridge_keep = '실온') AND</if>
+	<if test="val.equals('frozen')"> fridge_keep = '냉동' AND</if>
+	<if test="val.equals('refri')"> fridge_keep = '냉장' AND</if>
+	<if test="val.equals('room')"> fridge_keep = '실온' AND</if>
+	<if test="searchOption.equals('category')"> fridge_category LIKE concat('%',#{searchVal},'%') </if>
+	<if test="searchOption.equals('name')"> fridge_name LIKE concat('%',#{searchVal},'%') </if>
+	ORDER BY fridge_expdate
+</select>
+
+<select id="getExpdateCount" parameterType="String" resultType="com.zerock.fridge.command.CountVO">
+<![CDATA[
+	SELECT 
+	COUNT(
+		CASE WHEN fridge_expdate < date(now()) THEN 1 END
+        ) as black,
+	COUNT(
+		CASE WHEN fridge_expdate = date(now()) then 1 END
+        ) AS red,
+	count(
+		CASE WHEN fridge_expdate between date_add(now(), interval+1 day) and date_add(now(), interval+3 day) then 1 end
+		) as yellow,
+	count(
+		CASE WHEN fridge_expdate > date_add(now(), interval+3 day) then 1 END
+		) as green
+	FROM fridge
+	WHERE user_id = #{user_id}
+]]>
+</select>
+
+</mapper>

@@ -1,8 +1,11 @@
 package com.zerock.board.command;
 
 import java.sql.Timestamp;
+import java.util.List;
 
-import com.mysql.cj.jdbc.Blob;
+import org.springframework.web.multipart.MultipartFile;
+
+
 
 public class BoardVO {
 	
@@ -12,7 +15,7 @@ public class BoardVO {
 	private String user_nick;
 	private String board_title;
 	private String board_content;
-	private byte[] board_file;
+	private String board_file;
 	private int board_view;
 	private int board_like;
 	private Timestamp board_regdate;
@@ -22,7 +25,8 @@ public class BoardVO {
 
 
 	public BoardVO(int board_num, String board_category, String user_id, String user_nick, String board_title,
-			String board_content, byte[] board_file, int board_view, int board_like, Timestamp board_regdate) {
+			String board_content, String board_file, int board_view, int board_like, Timestamp board_regdate,
+			int cmtCount) {
 		this.board_num = board_num;
 		this.board_category = board_category;
 		this.user_id = user_id;
@@ -33,6 +37,7 @@ public class BoardVO {
 		this.board_view = board_view;
 		this.board_like = board_like;
 		this.board_regdate = board_regdate;
+		this.cmtCount = cmtCount;
 	}
 
 	public int getBoard_num() {
@@ -83,13 +88,6 @@ public class BoardVO {
 		this.board_content = board_content;
 	}
 
-	public byte[] getBoard_file() {
-		return board_file;
-	}
-
-	public void setBoard_file(byte[] board_file) {
-		this.board_file = board_file;
-	}
 
 	public int getBoard_view() {
 		return board_view;
@@ -124,9 +122,18 @@ public class BoardVO {
 	public void setCmtCount(int cmtCount) {
 		this.cmtCount = cmtCount;
 	}
-	
-	
-	
+
+
+	public String getBoard_file() {
+		return board_file;
+	}
+
+
+	public void setBoard_file(String board_file) {
+		this.board_file = board_file;
+	}
+
+
 	
 
 }

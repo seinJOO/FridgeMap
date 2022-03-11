@@ -1,26 +1,40 @@
 package com.zerock.board.controller;
 
 
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletRequestWrapper;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.apache.commons.io.FileUtils;
+import org.apache.commons.io.FilenameUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 
+import com.google.gson.JsonObject;
 import com.zerock.board.command.AlertVO;
 import com.zerock.board.command.BoardVO;
 import com.zerock.board.command.CommentVO;
-import com.zerock.board.command.Criteria;
 import com.zerock.board.command.LikeVO;
-import com.zerock.board.command.PageVO;
 import com.zerock.board.service.BoardService;
+import com.zerock.board.util.Criteria;
+import com.zerock.board.util.PageVO;
+
 
 
 @Controller
@@ -29,6 +43,10 @@ public class BoardController {
 	
 	@Autowired
 	BoardService service;
+	
+	Logger log = LoggerFactory.getLogger(BoardController.class);
+	
+	
 	//글쓰기 화면처리
 	@RequestMapping("/write") 
 		public String write(Model model, Criteria cri) {
@@ -78,6 +96,7 @@ public class BoardController {
 		return "redirect:/board/main";
 	}
 	
+	
 	// 글 보기 기능 + 조회수
 	@RequestMapping("/viewContent")
 	public String viewContent(Model model, @RequestParam("board_num") String board_num, Criteria cri, HttpServletRequest request, HttpServletResponse response, HttpSession session) {		
@@ -98,7 +117,6 @@ public class BoardController {
 	@RequestMapping("/modify")
 	public String modify(Model model, @RequestParam("board_num") String board_num, Criteria cri) {
 		BoardVO bvo = service.getContent(Integer.parseInt(board_num));
-		System.out.println(cri.getBoard_category());
 		model.addAttribute("board",bvo);
 		model.addAttribute("cri",cri);	
 		return "board/modify";
@@ -163,7 +181,7 @@ public class BoardController {
 		@ResponseBody
 		public int likeHeart(@RequestParam("board_num") String board_num, HttpSession session) {
 			LikeVO vo = new LikeVO(Integer.parseInt(board_num), (String)session.getAttribute("user_id"));
-			int result = service.plusLike(vo);
+			service.plusLike(vo);
 			int count = service.getLikes(Integer.parseInt(board_num));	//해당 글의 좋아요 수
 			return count;
 		}
@@ -174,12 +192,18 @@ public class BoardController {
 		@ResponseBody
 		public int unlikeHeart(@RequestParam("board_num") String board_num, HttpSession session) {
 			LikeVO vo = new LikeVO(Integer.parseInt(board_num), (String)session.getAttribute("user_id"));
-			int result = service.minusLike(vo);
+			service.minusLike(vo);
 			int count = service.getLikes(Integer.parseInt(board_num));
 			return count;
 		}
 		
-	
+		@RequestMapping(value="/uploadImageFile",  method = RequestMethod.POST )
+		@ResponseBody
+		public JsonObject uploadImageFile(MultipartFile file)  {
+			JsonObject jsonObject = service.uploadImageFile(file);
+			return jsonObject;
+
+		}
 	
 	
 	

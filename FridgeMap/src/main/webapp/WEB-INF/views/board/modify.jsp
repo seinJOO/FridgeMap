@@ -13,6 +13,8 @@
 <script src="https://code.jquery.com/jquery-latest.js"></script> 
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.1.9/dist/sweetalert2.min.css">
 <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-lite.min.css" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-lite.min.js"></script>
 <style>
 body {
 	font-family: 'Poor Story', cursive;
@@ -78,7 +80,7 @@ body {
 
 <div class="field is-horizontal">
   <div class="field-label is-normal">
-    <label class="label 700">제목</label>
+    <label class="label">제목</label>
   </div>
   <div class="field-body">
     <div class="field">
@@ -90,31 +92,13 @@ body {
 </div>
 
 <div class="field is-horizontal">
-	<div class="field-label is-normal">
-    <label class="label">파일 첨부</label>
-  </div>
-   <div class="field-body">
-  <div class="file is-info has-name">
-    <label class="file-label">
-      <input class="file-input" type="file" name="board_file" id="board_file">
-      <span class="file-cta">
-        <span class="file-icon"><i class="fas fa-upload"></i></span>
-        <span class="file-label">Info file…</span>
-      </span>
-      <span class="file-name">Screen Shot 2017-07-29 at 15.54.25.png</span>
-    </label>
-    </div>
-  </div>
-</div>
-
-<div class="field is-horizontal">
   <div class="field-label is-normal">
     <label class="label">내용</label>
   </div>
   <div class="field-body">
     <div class="field">
-      <div class="control">
-        <textarea class="textarea" rows="14" id="board_content" name="board_content">${board.board_content }</textarea>
+     <div class="control">
+    <textarea id="summernote" name="board_content">${board.board_content }</textarea>
       </div>
     </div>
   </div>
@@ -143,13 +127,49 @@ body {
 </div>
 <c:set var="paging" value="${cri.board_category }" />
 <script>
+$(document).ready(function() {
+	//여기 아래 부분
+	$('#summernote').summernote({
+		  height: 500,                 // 에디터 높이
+		  minHeight: 150,             // 최소 높이
+		  focus: true,                  // 에디터 로딩후 포커스를 맞출지 여부
+		  lang: "ko-KR",				// 한글 설정
+        	callbacks: {	//여기 부분이 이미지를 첨부하는 부분
+    		onImageUpload : function(files,editor, welEditable) {
+    			for (var i = 0; i < files.length; i++) {
+    				sendFile(files[i], this);
+    			}
+          	}
+	}
+	});	
+});
+
+function sendFile(file, editor) {
+	data = new FormData();
+	data.append("file", file);
+	console.log(file);
+	$.ajax({
+		data : data,
+		type : "post",
+		url : "uploadImageFile",
+		contentType : false,
+		processData : false,
+		enctype : 'multipart/form-data',
+		success : function(data) {
+			console.log(data);
+			console.log(editor);
+        	//항상 업로드된 파일의 url이 있어야 한다.
+			$(editor).summernote('editor.insertImage', data.url);
+        	console.log(data.url);
+        	
+		}
+	});
+}
+
 function modifyCheck() {
 		
 	if($("#board_title").val().length < 1) {
 		Swal.fire("제목을 입력해주세요!","","warning");
-		return;
-	}else if ($("#board_content").val().length < 1) {
-		Swal.fire("내용을 한 글자 이상 입력해주세요!","","warning");
 		return;
 	} else {		
 		Swal.fire({

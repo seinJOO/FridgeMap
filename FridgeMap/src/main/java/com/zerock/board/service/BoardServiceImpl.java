@@ -1,20 +1,27 @@
 package com.zerock.board.service;
 
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.UUID;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.io.FileUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
+import com.google.gson.JsonObject;
 import com.zerock.board.command.AlertVO;
 import com.zerock.board.command.BoardVO;
 import com.zerock.board.command.CommentVO;
-import com.zerock.board.command.Criteria;
 import com.zerock.board.command.LikeVO;
 import com.zerock.board.mapper.BoardMapper;
+import com.zerock.board.util.Criteria;
 
 @Service
 public class BoardServiceImpl implements BoardService {
@@ -127,7 +134,6 @@ public class BoardServiceImpl implements BoardService {
 	@Override
 	public int deleteComment(CommentVO vo) {
 		int result = mapper.deleteComment(vo);
-		System.out.println("댓글삭제성공?????===="+result);
 		return result;
 	}
 
@@ -149,7 +155,6 @@ public class BoardServiceImpl implements BoardService {
 		ArrayList<LikeVO> heart = mapper.getAllLikes();
 		
 		for(LikeVO lvo : heart) {
-			System.out.println("foreach확인"+lvo.getBoard_num()+lvo.getUser_id());
 			if (lvo.getBoard_num() != vo.getBoard_num() && lvo.getUser_id() != vo.getUser_id()) {
 				result = 1;
 			}
@@ -157,11 +162,8 @@ public class BoardServiceImpl implements BoardService {
 		
 		if (result == 1 || heart.size() == 0) { //0은 처음에만!
 			result = mapper.plusLike(vo);
-			System.out.println("like추가?=="+result);
 			result += mapper.plusBoard(vo);
-			System.out.println("게시판에도 추가?=="+result);
 			result += mapper.alertLike(vo);
-			System.out.println("알림메세지도 추가?=="+result);
 			result=1;				
 		} 
 		
@@ -179,14 +181,43 @@ public class BoardServiceImpl implements BoardService {
 	@Override
 	public int minusLike(LikeVO vo) {
 		int result = mapper.minusLike(vo);// heart에서 지우기
-		System.out.println("like삭제?=="+result);
 		result += mapper.minusBoard(vo);// board에서 하나 빼고
-		System.out.println("게시판에도 삭제?=="+result);
 		result += mapper.alertUnlike(vo);// 얼랏에서 지우고
-		System.out.println("알림메세지도 삭제?=="+result);
 		result = 1;
 		return result;
 	}
+
+	@Override
+	public JsonObject uploadImageFile(MultipartFile file) {
+		JsonObject jsonObject = new JsonObject();
+		String fileRoot = "C:\\FridgeMapImages\\";
+		String originalFileName = file.getOriginalFilename();
+		String extension = originalFileName.substring(originalFileName.lastIndexOf("."));
+		String saveFileName = UUID.randomUUID()+extension;
+		File targetFile = new File(fileRoot+saveFileName);
+		try {
+			InputStream fileStream = file.getInputStream();
+			FileUtils.copyInputStreamToFile(fileStream, targetFile);
+			jsonObject.addProperty("url", "http://localhost:8080/FridgeMapImages/"+saveFileName);
+			jsonObject.addProperty("responseCode", "succcess");
+			try {
+				Thread.sleep(3000);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+		} catch(IOException e) {
+			FileUtils.deleteQuietly(targetFile);
+			jsonObject.addProperty("responseCode", "error");
+			e.printStackTrace();
+		}	
+		return jsonObject;
+
+	}
+
+	
+	
+	
+	
 
 	
 }

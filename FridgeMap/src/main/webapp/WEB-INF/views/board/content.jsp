@@ -91,11 +91,10 @@ body {
 	</div>
 	<hr>
 	<div class="field-body">
+		<div class="showImages"></div>
 		<div class="contexts">${board.board_content }</div>
 	</div>
 	</div>
-	<a class="button is-rounded"><i class="fas fa-paperclip"></i>&#32;&#32;filename</a>
-
 <div class="field is-horizontal">
   <div class="field-label">
     <!-- Left empty for spacing -->
@@ -130,7 +129,7 @@ body {
 </div>
 </div>
 
-<div class="tile is-child box">
+<div class="tile is-child">
 <article class="media">
   <div class="media-content">
     <div class="content">
@@ -207,6 +206,7 @@ body {
   </div>
 </div>
 <script>
+
 
 function Like(board_num) {
 	$.ajax({

@@ -4,12 +4,12 @@
 
 <mapper namespace="com.zerock.board.mapper.BoardMapper">
 
-<select id="getAllList" parameterType="com.zerock.board.command.Criteria" resultType="com.zerock.board.command.BoardVO">
+<select id="getAllList" parameterType="com.zerock.board.util.Criteria" resultType="com.zerock.board.command.BoardVO">
 		<!-- SELECT * FROM board ORDER BY board_num DESC LIMIT #{pageStart},#{count} -->
 		SELECT *, (SELECT COUNT(*) FROM comment where comment.board_num = board.board_num) as cmtCount FROM board ORDER BY board_num DESC LIMIT #{pageStart},#{count};
 </select>
 
-<select id="getCategoryList" parameterType="com.zerock.board.command.Criteria" resultType="com.zerock.board.command.BoardVO">
+<select id="getCategoryList" parameterType="com.zerock.board.util.Criteria" resultType="com.zerock.board.command.BoardVO">
 		<!-- SELECT * FROM board  -->
 		SELECT *, (SELECT COUNT(*) FROM comment where comment.board_num = board.board_num) as cmtCount FROM board
 		<if test="board_category != 'main'">
@@ -18,7 +18,7 @@
 		ORDER BY board_num DESC limit #{pageStart},#{count}
 </select>
 
-<select id="getKeywordList" parameterType="com.zerock.board.command.Criteria" resultType="com.zerock.board.command.BoardVO">
+<select id="getKeywordList" parameterType="com.zerock.board.util.Criteria" resultType="com.zerock.board.command.BoardVO">
    SELECT *, (SELECT COUNT(*) FROM comment where comment.board_num = board.board_num) as cmtCount FROM board WHERE (board_title LIKE CONCAT('%',#{keyword},'%') OR board_content LIKE CONCAT('%',#{keyword},'%'))
    <if test="board_category != 'main'">
 	AND board_category = #{board_category}
@@ -30,14 +30,14 @@
 	SELECT COUNT(*) FROM board
 </select>
 
-<select id="getCateTotal" parameterType="com.zerock.board.command.Criteria" resultType="int">
+<select id="getCateTotal" parameterType="com.zerock.board.util.Criteria" resultType="int">
 	SELECT COUNT(*) FROM board 
 	<if test="board_category != 'main'">
 	WHERE board_category=#{board_category}
 	</if>
 </select>
 
-<select id="getKeyTotal" parameterType="com.zerock.board.command.Criteria" resultType="int">
+<select id="getKeyTotal" parameterType="com.zerock.board.util.Criteria" resultType="int">
 	SELECT count(*) FROM board WHERE board_title LIKE CONCAT('%',#{keyword},'%')
 	<if test="board_category != 'main'">
 	AND board_category = #{board_category}
@@ -45,7 +45,7 @@
 </select>
 
 <insert id="regist" parameterType="com.zerock.board.command.BoardVO"><!-- 이미지 파일 적용 전 쿼리 ㅠㅠㅠㅠ -->
-	INSERT INTO board (board_category, user_id, user_nick, board_title, board_content) VALUES (#{board_category},#{user_id},#{user_nick},#{board_title},#{board_content})
+	INSERT INTO board (board_category, user_id, user_nick, board_title, board_content, board_file) VALUES (#{board_category},#{user_id},#{user_nick},#{board_title},#{board_content}, #{board_file})
 </insert>
 
 <select id="getContent" resultType ="com.zerock.board.command.BoardVO">
@@ -120,4 +120,6 @@
 <delete id="alertUnlike" parameterType="com.zerock.board.command.LikeVO">
 	DELETE FROM board_alert WHERE user_id= (SELECT user_id FROM board WHERE board_num = #{board_num}) AND board_num = #{board_num} AND alert_type='like'
 </delete>
+
+
 </mapper>

@@ -5,8 +5,8 @@ import java.util.ArrayList;
 import com.zerock.board.command.AlertVO;
 import com.zerock.board.command.BoardVO;
 import com.zerock.board.command.CommentVO;
-import com.zerock.board.command.Criteria;
 import com.zerock.board.command.LikeVO;
+import com.zerock.board.util.Criteria;
 
 public interface BoardMapper {
 

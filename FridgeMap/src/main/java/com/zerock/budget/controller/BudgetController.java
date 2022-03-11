@@ -59,7 +59,6 @@ public class BudgetController {
 	@RequestMapping("/getOrderList")
 	@ResponseBody
 	public String[] getOrderList(@RequestParam("year") int year, @RequestParam("month") int month, @RequestParam("date") int date) {
-		System.out.println(year+"-"+month+"-"+date);
 		ArrayList<PriceVO> orderList = service.getList(new DateVO(year, month, date));
 		
 		String[] list = service.sendViewList(orderList);
@@ -72,7 +71,6 @@ public class BudgetController {
 	public String getTotalSpend(@RequestParam("pickStartDate") String pickStartDate, @RequestParam("pickEndDate") String pickEndDate) {
 		DateVO vo = new DateVO(pickStartDate, pickEndDate);
 		String total = service.getTotalSpend(vo);
-		System.out.println(total);
 		return total;		
 	}
 	

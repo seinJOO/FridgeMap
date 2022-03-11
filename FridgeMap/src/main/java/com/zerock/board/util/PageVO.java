@@ -1,4 +1,4 @@
-package com.zerock.board.command;
+package com.zerock.board.util;
 
 // pageVO와 criteria는 상호의존적 ! 특히 pageVO는 criteria 없이 동작하지 않음
 // pageVO는 페이징 버튼의 기준을 설정

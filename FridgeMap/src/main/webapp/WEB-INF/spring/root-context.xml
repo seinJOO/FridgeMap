@@ -56,11 +56,11 @@
 
 	
 	<!-- MyBatis의 생성한 매퍼 패키지를 스캔하는 태그 -->
-<!--
-	<mybatis-spring:scan base-package="com.zerock.user.mapper"/>
-	<mybatis-spring:scan base-package="com.zerock.fridge.mapper"/> -->
+
+	<!-- <mybatis-spring:scan base-package="com.zerock.user.mapper"/> -->
+	<mybatis-spring:scan base-package="com.zerock.fridge.mapper"/> 
 	<mybatis-spring:scan base-package="com.zerock.budget.mapper"/> 
 	<mybatis-spring:scan base-package="com.zerock.board.mapper"/>
-
 	
+		
 </beans>

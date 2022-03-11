@@ -1,15 +1,19 @@
 package com.zerock.board.service;
 
+import java.io.IOException;
 import java.util.ArrayList;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.springframework.web.multipart.MultipartFile;
+
+import com.google.gson.JsonObject;
 import com.zerock.board.command.AlertVO;
 import com.zerock.board.command.BoardVO;
 import com.zerock.board.command.CommentVO;
-import com.zerock.board.command.Criteria;
 import com.zerock.board.command.LikeVO;
+import com.zerock.board.util.Criteria;
 
 public interface BoardService {
 	
@@ -32,4 +36,5 @@ public interface BoardService {
 	public int plusLike(LikeVO vo);
 	public int getLikes(int board_num); // 해당 글의 좋아요 개수만 가져오기
 	public int minusLike(LikeVO vo);
+	public JsonObject uploadImageFile(MultipartFile file);
 }

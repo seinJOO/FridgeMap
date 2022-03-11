@@ -2,6 +2,10 @@
     pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
+<%
+	session.setAttribute("user_id", "test");
+	session.setAttribute("user_nick", "testnick");
+%>
 
 <!DOCTYPE html>
 <html>

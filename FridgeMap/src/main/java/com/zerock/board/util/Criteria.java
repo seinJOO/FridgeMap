@@ -1,4 +1,4 @@
-package com.zerock.board.command;
+package com.zerock.board.util;
 
 
 public class Criteria {

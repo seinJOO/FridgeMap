@@ -83,7 +83,7 @@
         <div class="tile is-ancestor" style="height: auto;" >
              <div class="tile is-8 is-vertical is-parent" style="width: 650px;">
                  <div class="tile is-child box "> 
-                   <a href="myFridge"><img class="fridge" src="/resources/img/burgundy-fridge.png" alt="fridgeImage" style="height: 550px; width: 250px; margin-left: 290px; margin-top: 30px;"></a>     
+                   <a href="fridgeMode"><img class="fridge" src="/resources/img/burgundy-fridge.png" alt="fridgeImage" style="height: 550px; width: 250px; margin-left: 290px; margin-top: 30px;"></a>     
                     <form action="fridgeDelete" name="delete" id="delete" method="post">
                    <button type="button" class="button is-ghost" onclick="deleteCheck('delete')"><i class="fa-solid fa-trash-can" style="font-size: 100px; color: black; margin-left: 130px; display: inline-block;"></i> </button>
                  </form>
@@ -105,13 +105,20 @@
                         	<c:forEach var="good" items= "${fridge_expdate}">
                         	 	<c:forEach var="food" items="${foodList}">
                         	 	 	<c:if test="${food.food_id eq good.food_id}">
-                        	 	 		<c:set var="icon" value="${food.food_img}"></c:set>	
+                        	 	 		<c:set var="icon" value="${food.food_class}"></c:set>	
                         	 	 	</c:if>	
                         	 	</c:forEach> 
           								<fmt:parseNumber value="${today.getTime()/(1000*60*60*24)}" integerOnly="true" var="endDate" scope="request"/>
 										<fmt:parseNumber value="${good.fridge_expdate.getTime()/(1000*60*60*24)}" integerOnly="true" var="strDate" scope="request"/>
                                         <c:set var="dday" value="${strDate - endDate}"></c:set>
-                           		<li> <i class="${icon}"></i> ${good.fridge_name}  D - ${dday} </li> 
+                           			<li> 
+		                           		<i class="${icon}"></i> 
+		                           		${good.fridge_name} 
+		                           		<c:choose> 
+		                           			<c:when test="${dday == -1}"> D-Day!</c:when> 
+		                           			<c:otherwise> D-${dday} </c:otherwise>
+		                           		</c:choose> 
+		                           		</li>
                           	</c:forEach>     
                         </ul>
                         <div class="expCheck" style="margin-left:55px;"> <a href="myFridge" class="link">소비기한 확인하러 하기&#8640;</a> </div>  
@@ -121,15 +128,13 @@
                     <h1 class="title" style="margin-bottom: 0px;">최근 지출</h1>
                     <div class="content">
                         <ul style="margin: 0px;">
-                         <c:forEach var="good" items= "${purchaseList}">
-                        	 	<c:forEach var="food" items="${foodList}">
-                        	 	 	<c:if test="${food.food_id eq good.food_id}">
-                        	 	 		<c:set var="budget" value="${good.fridge_price}"></c:set>
-                              	 	</c:if> 	
-                        	 	</c:forEach>  	             
-                            <li> ${budget}</li>                        
-                          	</c:forEach> 
-                          
+                         <c:forEach var="good" items="${priceList}">
+           	 				<li>
+               	 	 		<c:set var="budget" value="${good.fridge_price}"></c:set> 
+               	 	 		<c:set var="buydate" value="${good.fridge_purchase}"></c:set>
+                       	 	<fmt:formatDate value="${good.fridge_purchase}" pattern="MM-dd"/>에 ${budget} 지출                     
+                            </li>
+                      	 	</c:forEach>
                         </ul> 
                          <div class="budgetCheck" style="margin-left:70px;"> <a href="##" class="link">가계부 확인하러 하기&#8640;</a> </div> 
                     </div>
@@ -141,10 +146,10 @@
                             <c:forEach var="good" items= "${alertList}">
                         	   <c:choose>
                         	   		<c:when test="${good.alert_type eq 'like' }">
-                        	   			<li> ${good.user_id}님이 좋아요를 눌렀습니다.</li>          
+                        	   			<li> 새로운 좋아요 알림이 있습니다. </li>          
                         	   		</c:when>
                         	   		<c:otherwise>
-                        	   			<li> ${good.user_id}님이 댓글을 남겼습니다.</li>   
+                        	   			<li> 새로운 댓글 알림이 있습니다. </li>   
                         	   		</c:otherwise>
                         	   </c:choose>    
                                           

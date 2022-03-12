@@ -15,4 +15,5 @@ public interface FridgeService {
 	public ArrayList<FoodVO> getFoodTable();
 	public ArrayList<FridgeVO> getPurchase(String user_id);
 	public ArrayList<Board_alertVO> getAlert(String user_id);
+	public ArrayList<FridgeVO> getPrice(String user_id);
 }

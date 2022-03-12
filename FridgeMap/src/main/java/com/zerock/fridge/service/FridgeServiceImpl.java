@@ -54,6 +54,13 @@ public class FridgeServiceImpl implements FridgeService {
 		ArrayList<Board_alertVO> list = mapper.getAlert(user_id);
 		return list;
 	}
+
+
+	@Override
+	public ArrayList<FridgeVO> getPrice(String user_id) {
+		ArrayList<FridgeVO> list = mapper.getPrice(user_id); 
+		return list;
+	}
 	
 
 

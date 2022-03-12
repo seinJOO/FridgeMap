@@ -14,7 +14,7 @@ public interface FridgeMapper {
 		public ArrayList<FoodVO> getFoodTable(); //냉장고 이모티콘 가져오기
 		public ArrayList<FridgeVO> getPurchase(String user_id);
 		public ArrayList<Board_alertVO> getAlert(String user_id);//게시판 알람 가져오기
-
+		public ArrayList<FridgeVO> getPrice(String user_id);
 	
 	
 

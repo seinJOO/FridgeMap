@@ -17,8 +17,11 @@
 	<select id="getPurchase" resultType="com.zerock.fridge.command.FridgeVO" parameterType="String"><!-- 메소드아이디랑 똑같이 해야한다. -->
 	  select * from fridge where user_id= #{user_id} order by fridge_purchase asc limit 0,5
 	</select>
+	<select id="getPrice" resultType="com.zerock.fridge.command.FridgeVO" parameterType="String">
+		SELECT fridge_purchase , SUM(fridge_price) as fridge_price from fridgemap.fridge where user_id = #{user_id} GROUP BY fridge_purchase ORDER BY fridge_purchase desc limit 0,5
+	</select>
 	<select id="getAlert" resultType="com.zerock.fridge.command.Board_alertVO" parameterType="String">	
-	  select * from board_alert where user_id= #{user_id} order by alert_type asc limit 0,5
+	  select * from board_alert where user_id= #{user_id} order by alert_id desc limit 0,5
 	</select>
 	<!-- 냉장고 전체삭제 -->
 	<delete id="delete">

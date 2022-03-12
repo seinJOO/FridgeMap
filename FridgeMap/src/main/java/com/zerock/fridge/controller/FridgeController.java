@@ -41,8 +41,9 @@ public class FridgeController {
 		ArrayList<FoodVO> foodList = service.getFoodTable();
 		ArrayList<FridgeVO> purchaseList = service.getPurchase(user_id);
 		ArrayList<Board_alertVO> alertList = service.getAlert(user_id);
-		
-	
+		ArrayList<FridgeVO> priceList = service.getPrice(user_id);
+	    
+		model.addAttribute("priceList", priceList);	
 		model.addAttribute("alertList",alertList);
 		model.addAttribute("purchaseList",purchaseList);
 		//model.addAttribute("today_date", smt);

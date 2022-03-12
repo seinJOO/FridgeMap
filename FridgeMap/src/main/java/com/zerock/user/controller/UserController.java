@@ -112,9 +112,9 @@ public class UserController {
 	
 	// 정보수정 폼 처리
 
-	@RequestMapping("/updateInfoForm")	
+	@RequestMapping("/updateInfoForm")
 	public String updateInfoForm(UserVO vo, RedirectAttributes RA) {
-		int result = user.updateInfo(vo); 
+		int result = user.updateInfo(vo);
 		
 		if(result==1) {
 			RA.addFlashAttribute("msg", "회원정보가 수정되었습니다");
@@ -123,13 +123,13 @@ public class UserController {
 			RA.addFlashAttribute("msg", "회원정보 수정을 실패하였습니다");
 			return "redirect:/user/home";
 		}
-	}	
+	}
 	
 	// 회원 탈퇴
 	@RequestMapping("/delete")
 	public String delete(HttpSession session ,RedirectAttributes RA) {
 		String user_id = (String)session.getAttribute("user_id");
-		int result = user.delete(user_id);	
+		int result = user.delete(user_id);
 		session.invalidate();
 		RA.addFlashAttribute("msg", "회원탈퇴 처리 되었습니다");
 		return "redirect:/";

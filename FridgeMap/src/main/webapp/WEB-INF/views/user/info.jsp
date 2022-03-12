@@ -104,7 +104,7 @@
    }
       .int-area2 input:focus + label,
    .int-area2 input:valid + label {
-         top: -2;    
+        top: -2;    
       font-size: 13px; color: white;
       font-family: 'Gaegu', cursive;
    
@@ -120,7 +120,6 @@
       border-radius: 25px; 
       cursor: pointer;
       font-family: 'Gaegu', cursive;
-      cursor: pointer;
    }
    
    .caption {
@@ -178,6 +177,6 @@
       </div>
    </section>
 </div>
-   
+<%@include file="../include/footer.jsp" %>
 </body>
 </html>

@@ -1,0 +1,54 @@
+@charset "UTF-8";
+
+.gg {
+	font-family: 'Gaegu', cursive;
+}
+
+.is-parent > .box {
+	box-shadow: none;
+}
+
+.view {
+	display: block;
+	margin: 80px auto 0px auto;
+	height: 80px;
+	width : 80px;
+}
+
+.tableView {
+	margin : 80px auto 0px auto;
+}
+
+.dDay {
+	position: absolute; 
+	left: 55px; 
+	top: -10px;
+	font-weight: bold;
+}
+
+.frozen {
+	 border-top: 5px solid black;
+	 border-left: 5px solid black;
+	 border-right: 5px solid black;
+	 border-bottom: 10px solid black;
+}
+
+.refri {
+	 border-top: 10px solid black;
+	 border-left: 5px solid black;
+	 border-right: 5px solid black;
+	 border-bottom: 5px solid black;
+}
+
+.room {
+	border: 5px solid black;
+}
+
+.message-header > ul > li {
+	font-size: 14px;
+}
+
+.listViewTable {
+	font-family: 'Nanum Gothic', sans-serif;
+	font-size: 15px;
+}

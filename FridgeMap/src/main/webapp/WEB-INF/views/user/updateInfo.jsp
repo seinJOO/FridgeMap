@@ -315,7 +315,5 @@ function emailCheck() {
 	)
 	</script>
 
-
-
 </body>
 </html>

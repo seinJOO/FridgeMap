@@ -216,8 +216,6 @@ body::before {
 	</div>
 
 	<script>
-
-
    
    function IdCheck() {
 		var user_id = $("#user_id").val(); 

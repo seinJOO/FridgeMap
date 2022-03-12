@@ -44,7 +44,6 @@ public class BoardController {
 	@Autowired
 	BoardService service;
 	
-	Logger log = LoggerFactory.getLogger(BoardController.class);
 	
 	
 	//글쓰기 화면처리
@@ -57,9 +56,11 @@ public class BoardController {
 	//게시판 첫 화면
 	@RequestMapping("/main")
 	public String main(Model model, Criteria cri, HttpSession session) { //HttpSession session에 심은 값 확인하기~~
+		String user_nick = service.getUserNick((String)session.getAttribute("user_id"));
+		session.setAttribute("user_nick", user_nick);
 		int total = service.getTotal();
 		cri.setBoard_category("main");
-		ArrayList<BoardVO> vo =  service.getAllList(cri);
+		ArrayList<BoardVO> vo =  service.getAllList(cri);		
 		
 		model.addAttribute("list", vo);
 		model.addAttribute("pageMaker", new PageVO(total, cri));

@@ -23,12 +23,12 @@ public int nowYear();
 		SELECT DATE_FORMAT(last_day(#{fullDate}), '%d') as endDate from dual
 	</select>	
 	<select id="getBuyList" parameterType="com.zerock.budget.command.DateVO" resultType="com.zerock.budget.command.PriceVO">
-	select DATE_FORMAT(fridge_purchase, '%d') as buyDate, food_id, fridge_quantity, fridge_price from fridgemap.fridge where fridge_purchase = #{buyDate} AND user_id = 'test' ORDER BY buyDate;</select>
+	select DATE_FORMAT(fridge_purchase, '%d') as buyDate, fridge_name, fridge_quantity, fridge_price from fridgemap.fridge where fridge_purchase = #{buyDate} AND user_id = #{user_id} ORDER BY buyDate</select>
 	<select id="getPrice" parameterType="com.zerock.budget.command.DateVO" resultType="com.zerock.budget.command.PriceVO">
-	SELECT DATE_FORMAT(fridge_purchase, '%d') as buyDate, SUM(fridge_price) as fridge_price from fridgemap.fridge where fridge_purchase between date(#{fullDate}) and date(#{nextFullDate}) and user_id = 'test' GROUP BY buyDate ORDER BY buyDate
+	SELECT DATE_FORMAT(fridge_purchase, '%d') as buyDate, SUM(fridge_price) as fridge_price from fridgemap.fridge where fridge_purchase between date(#{fullDate}) and date(#{nextFullDate}) and user_id = #{user_id} GROUP BY buyDate ORDER BY buyDate
 	</select>
 	<select id="getTotalSpend" parameterType="com.zerock.budget.command.DateVO" resultType="String">
-	    SELECT SUM(fridge_price) FROM fridgemap.fridge WHERE user_id = 'test' and fridge_purchase between date(#{pickStartDate}) and date(#{pickEndDate})
+	    SELECT SUM(fridge_price) FROM fridgemap.fridge WHERE user_id = #{user_id} and fridge_purchase between date(#{pickStartDate}) and date(#{pickEndDate})
 	</select>	
 	
 </mapper>

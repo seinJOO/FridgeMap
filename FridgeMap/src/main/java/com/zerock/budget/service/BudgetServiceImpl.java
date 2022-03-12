@@ -2,6 +2,8 @@ package com.zerock.budget.service;
 
 import java.util.*;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -15,6 +17,8 @@ public class BudgetServiceImpl implements BudgetService {
 	@Autowired
 	BudgetMapper mapper;
 
+	HttpSession session;
+	
 	@Override
 	public DateVO getToday() {
 		DateVO vo = new DateVO(mapper.nowYear(),mapper.nowMonth(),mapper.nowDate());
@@ -90,10 +94,11 @@ public class BudgetServiceImpl implements BudgetService {
 	public String[] sendViewList(ArrayList<PriceVO> orderList) {
 		String[] list = new String[orderList.size()];
 		for (int i = 0 ; i < orderList.size() ; i++) {
-			list[i] = orderList.get(i).getFood_id() + " " + orderList.get(i).getFridge_quantity() + "개 :  " + orderList.get(i).getFridge_price() + "원";
+			list[i] = orderList.get(i).getFridge_name() + " " + orderList.get(i).getFridge_quantity() + "개 :  " + orderList.get(i).getFridge_price() + "원";
 		}
 		return list;
 	}
+
 	
 	}
 

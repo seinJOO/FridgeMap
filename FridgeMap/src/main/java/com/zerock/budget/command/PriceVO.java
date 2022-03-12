@@ -5,7 +5,7 @@ import javax.servlet.http.HttpSession;
 public class PriceVO {
 	
 
-	private String food_id;
+	private String fridge_name;
 	private int fridge_quantity;
 	private int buyDate;
 	private int fridge_price;	
@@ -13,8 +13,8 @@ public class PriceVO {
 	
 	public PriceVO() {}
 	
-	public PriceVO(String food_id, int fridge_quantity, int buyDate, int fridge_price, HttpSession session) {
-		this.food_id = food_id;
+	public PriceVO(String fridge_name, int fridge_quantity, int buyDate, int fridge_price, HttpSession session) {
+		this.fridge_name = fridge_name;
 		this.fridge_quantity = fridge_quantity;
 		this.buyDate = buyDate;		// mapper에서 일수만 받아옴
 		this.fridge_price = fridge_price;
@@ -35,12 +35,12 @@ public class PriceVO {
 		this.buyDate = buyDate;
 	}
 
-	public String getFood_id() {
-		return food_id;
+	public String getFridge_name() {
+		return fridge_name;
 	}
 
-	public void setFood_id(String food_id) {
-		this.food_id = food_id;
+	public void setFridge_name(String fridge_name) {
+		this.fridge_name = fridge_name;
 	}
 
 	public int getFridge_price() {

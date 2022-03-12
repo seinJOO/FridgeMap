@@ -12,17 +12,37 @@ public class DateVO {
 	private int startDate;
 	private int endDate;
 	private String buyDate;
+	private String user_id;
 	
 	private String pickStartDate;
 	private String pickEndDate;
 	
 	
 	
-	public DateVO(String pickStartDate, String pickEndDate) {
+	public DateVO(String pickStartDate, String pickEndDate, String user_id) {
 		this.pickStartDate = pickStartDate;
 		this.pickEndDate = pickEndDate;
+		this.user_id = user_id;
 	}
 
+	public DateVO(int year, int month, int date, String user_id) {
+		super();
+		this.year = year;
+		this.month = month;
+		this.date = date;
+		this.user_id = user_id;
+			
+		this.fullDate = year + "-" + month + "-" + "1";
+		this.nextFullDate = year + "-" + (month + 1) + "-" + "1";	
+		this.setBuyDate(year + "-" + month + "-" + date);
+		
+		if (this.startDate == 6 && this.endDate > 30) {
+			this.weekdays = 42;
+		} else if (this.startDate == 7 && this.endDate > 29) {
+			this.weekdays = 42;
+		} else this.weekdays = 35;
+
+	}
 	public DateVO(int year, int month, int date) {
 		super();
 		this.year = year;
@@ -128,6 +148,14 @@ public class DateVO {
 
 	public void setPickEndDate(String pickEndDate) {
 		this.pickEndDate = pickEndDate;
+	}
+
+	public String getUser_id() {
+		return user_id;
+	}
+
+	public void setUser_id(String user_id) {
+		this.user_id = user_id;
 	}
 
 	

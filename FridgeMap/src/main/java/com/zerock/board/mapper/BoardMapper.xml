@@ -9,6 +9,10 @@
 		SELECT *, (SELECT COUNT(*) FROM comment where comment.board_num = board.board_num) as cmtCount FROM board ORDER BY board_num DESC LIMIT #{pageStart},#{count};
 </select>
 
+<select id="getUserNick" parameterType="String" resultType="String">
+	SELECT user_nick FROM user WHERE user_id = #{user_id}
+</select>
+
 <select id="getCategoryList" parameterType="com.zerock.board.util.Criteria" resultType="com.zerock.board.command.BoardVO">
 		<!-- SELECT * FROM board  -->
 		SELECT *, (SELECT COUNT(*) FROM comment where comment.board_num = board.board_num) as cmtCount FROM board
@@ -45,7 +49,7 @@
 </select>
 
 <insert id="regist" parameterType="com.zerock.board.command.BoardVO"><!-- 이미지 파일 적용 전 쿼리 ㅠㅠㅠㅠ -->
-	INSERT INTO board (board_category, user_id, user_nick, board_title, board_content, board_file) VALUES (#{board_category},#{user_id},#{user_nick},#{board_title},#{board_content}, #{board_file})
+	INSERT INTO board (board_category, user_id, user_nick, board_title, board_content) VALUES (#{board_category},#{user_id},#{user_nick},#{board_title},#{board_content})
 </insert>
 
 <select id="getContent" resultType ="com.zerock.board.command.BoardVO">

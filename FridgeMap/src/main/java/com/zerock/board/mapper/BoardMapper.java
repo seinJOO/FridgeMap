@@ -35,4 +35,5 @@ public interface BoardMapper {
 	public int minusLike(LikeVO vo);
 	public int minusBoard(LikeVO vo);
 	public int alertUnlike(LikeVO vo);
+	public String getUserNick(String user_id);
 }

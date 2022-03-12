@@ -14,4 +14,5 @@ public interface BudgetService {
 	public ArrayList<Integer> getPrice(DateVO vo, ArrayList<Integer> calList);
 	public String getTotalSpend(DateVO vo);
 	public String[] sendViewList(ArrayList<PriceVO> orderList);
+	
 }

@@ -37,4 +37,5 @@ public interface BoardService {
 	public int getLikes(int board_num); // 해당 글의 좋아요 개수만 가져오기
 	public int minusLike(LikeVO vo);
 	public JsonObject uploadImageFile(MultipartFile file);
+	public String getUserNick(String user_id);
 }

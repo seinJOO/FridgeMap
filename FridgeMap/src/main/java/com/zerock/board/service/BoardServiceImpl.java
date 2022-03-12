@@ -214,6 +214,12 @@ public class BoardServiceImpl implements BoardService {
 
 	}
 
+	@Override
+	public String getUserNick(String user_id) {
+		String user_nick = mapper.getUserNick(user_id);
+		return user_nick;
+	}
+
 	
 	
 	

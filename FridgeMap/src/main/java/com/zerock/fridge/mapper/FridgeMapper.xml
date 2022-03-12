@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+	PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">	
+	
+	
+<mapper namespace="com.zerock.fridge.mapper.FridgeMapper">  
+
+ <!-- 인터페이스 경로까지 써야한다. -->
+ <!-- 냉장고 목록 -->
+	<select id="getExpdate" resultType="com.zerock.fridge.command.FridgeVO" parameterType="String"><!-- 메소드아이디랑 똑같이 해야한다. -->
+	  select * from fridge where user_id= #{user_id} order by fridge_expdate asc limit 0,5
+	</select>
+	<select id="getFoodTable" resultType="com.zerock.fridge.command.FoodVO"> 
+	  select * from food
+	</select>
+	<select id="getPurchase" resultType="com.zerock.fridge.command.FridgeVO" parameterType="String"><!-- 메소드아이디랑 똑같이 해야한다. -->
+	  select * from fridge where user_id= #{user_id} order by fridge_purchase asc limit 0,5
+	</select>
+	<select id="getAlert" resultType="com.zerock.fridge.command.Board_alertVO" parameterType="String">	
+	  select * from board_alert where user_id= #{user_id} order by alert_type asc limit 0,5
+	</select>
+	<!-- 냉장고 전체삭제 -->
+	<delete id="delete">
+		delete * from fridge where user_id=#{user_id} 
+	</delete>
+
+	
+	
+<!-- 	
+	<select id="pagingList" resultType="com.zerock.board.command.BoardVO" 
+	parameterType="com.zerock.board.command.Criteria">	
+	 select * from
+			(select rownum as rnum, B.* from tbl_board B 
+			where rownum &lt;= #{count_oracle} order by num desc)
+  			where #{pageStart} &lt;= rnum
+  		   select * from tbl_board order by num desc limit 0,10
+  	
+   	SELECT * FROM (SELECT rownum R, B.* FROM (SELECT * FROM tbl_board ORDER BY num DESC)
+  	 B WHERE #{count_oracle} >= rownum) WHERE R >= #{pageStart} order by R
+	
+	</select>
+	<select id="getTotal" resultType="int"> 
+		select count(*) from tbl_board
+	</select> -->
+
+
+</mapper>

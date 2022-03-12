@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+	
+<mapper namespace="com.zerock.user.mapper.UserMapper">
+
+	<select id="checkId" resultType="int">
+		select count(*) as result from user where user_id = #{user_id}
+	</select>
+	
+	<select id="checkNick" resultType="int">
+		select count(*) as result from user where user_nick = #{user_nick}
+	</select>
+
+	
+	<insert id="join" parameterType="com.zerock.user.command.UserVO">
+		INSERT INTO user(user_id, user_nick, user_pw, user_email) 
+		VALUES(#{user_id}, #{user_nick}, #{user_pw}, #{user_email})
+	</insert>
+	
+	<select id="login" parameterType="com.zerock.user.command.UserVO" resultType="int">
+		select count(*) as result
+		from user
+		where user_id = #{user_id} and user_pw = #{user_pw}
+	</select>
+	
+	<select id="info" resultType="com.zerock.user.command.UserVO">
+		SELECT * FROM USER WHERE USER_ID = #{USER_ID}
+	</select>
+	
+	
+	<update id="updateInfo" parameterType="com.zerock.user.command.UserVO">
+		<![CDATA[
+		update user set user_pw = #{user_pw}, user_email = #{user_email} where user_id = #{user_id}
+		]]>
+	</update>
+	
+	<delete id="delete" parameterType="com.zerock.user.command.UserVO">
+		delete from user where user_id = #{user_id}
+	</delete>
+
+</mapper>

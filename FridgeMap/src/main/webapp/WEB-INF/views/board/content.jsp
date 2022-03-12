@@ -14,6 +14,8 @@
 <script src="https://code.jquery.com/jquery-latest.js"></script> 
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.1.9/dist/sweetalert2.min.css">
 <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-lite.min.css" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-lite.min.js"></script>
 <meta charset="UTF-8">
 <title>Insert title here</title>
 <style>
@@ -95,7 +97,7 @@ body {
 		<div class="contexts">${board.board_content }</div>
 	</div>
 	</div>
-<div class="field is-horizontal">
+<div class="field is-horizontal" style="margin-top:5%">
   <div class="field-label">
     <!-- Left empty for spacing -->
   </div>

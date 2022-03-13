@@ -7,8 +7,11 @@
 <link href="https://fonts.googleapis.com/css2?family=Gaegu:wght@700&display=swap" rel="stylesheet">
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js" ></script>
  <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+ <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
 
 <title>냉장고일지도</title>
+
+
 <style>
    .* {margin:0; padding:0; box-sizing: border-box;}
    .body {
@@ -23,13 +26,71 @@
       background-position: center;
       
    }
+    @keyframes anime_textup { 0% { top: 0; } 15% { top: -0.5rem; } 30% { top: 0 } 45% { top: 0 } 60% { top: 0 } 75% { top: 0 }  90% { top: 0 } }
+ 	
+
+    .test_obj span {
+    	
+        position: relative;
+        animation: anime_textup 1.5s infinite;
+        font-family: 'Noto Sans KR', sans-serif;
+        font-size: 80px;
+    }
+ 
+    .test_obj span:nth-of-type(1) {
+        animation-delay: .2s;
+    }
+ 
+    .test_obj span:nth-of-type(2) {
+        animation-delay: .4s;
+    }
+ 
+    .test_obj span:nth-of-type(3) {
+        animation-delay: .6s;
+    }
+ 
+    .test_obj span:nth-of-type(4) {
+        animation-delay: .8s;
+    }
+ 
+    .test_obj span:nth-of-type(5) {
+        animation-delay: 1.0s;
+    }
+    
+        .test_obj span:nth-of-type(6) {
+        animation-delay: 1.2s;
+    }
+    
+    
+        .test_obj span:nth-of-type(2) {
+        animation-delay: .4s;
+    }
+    
+    
+        .test_obj span:nth-of-type(3) {
+        animation-delay: .6s;
+    }
+    
 
 </style>
+
 </head>
 <body class="body">
 <%@include file="../include/header.jsp" %>
+ 
+<div class="test_obj">
+    <span style="color:green;">F</span>
+    <span>R</span>
+    <span>I</span>
+    <span>D</span>
+    <span>G</span>
+    <span>E</span>
+     <br>
+    <span style="color:red;">M</span>
+    <span>A</span>
+    <span>P</span>
+</div>
 
-
-
+<%@include file="../include/footer.jsp" %>
 </body>
 </html>

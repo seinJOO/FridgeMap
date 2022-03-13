@@ -113,7 +113,10 @@ public class UserController {
 	// 정보수정 폼 처리
 
 	@RequestMapping("/updateInfoForm")
-	public String updateInfoForm(UserVO vo, RedirectAttributes RA) {
+	public String updateInfoForm(UserVO vo, RedirectAttributes RA, HttpSession session) {
+		
+		String user_id = (String)session.getAttribute("user_id"); 
+		vo.setUser_id(user_id);
 		int result = user.updateInfo(vo);
 		
 		if(result==1) {

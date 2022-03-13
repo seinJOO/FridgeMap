@@ -8,6 +8,8 @@
    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js" ></script>
    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 	
+	
+
    <title>냉장고일지도</title>
    
 <style>
@@ -22,7 +24,7 @@
       background-repeat: no-repeat;
       background-size: cover;
       background-position: center;
-      
+   
    }
    body::before {
       content:"";
@@ -40,27 +42,16 @@
    .int-area {
       width: 400px;
       position: relative;
-      margin-top: 10px;
+      margin-top: 20px;
    }
-   
-     .int-area2 {
-      width: 400px;
-      position: relative;
-      display: flex;
-      margin-top: 10px;	
-   }
-   	#check {
-		width:70px;
-	}
-	
    .int-area:first-child {margin-top: 0;}
-   .int-area input{
+   .int-area input {
       width: 100%;
       padding: 20px 10px 10px;
       background-color: transparent;
       border: none;
       border-bottom: 2px solid white;
-      font-size: 18px; color: #999;
+      font-size: 18px; color: white;
       outline: none;
       font-family: 'Gaegu', cursive;
    }
@@ -69,42 +60,12 @@
       font-size: 18px; color:#999;
       transition: all .5s ease;
       font-family: 'Gaegu', cursive;
-      top: -2px;
-      font-size: 13px; color: white;
-      font-family: 'Gaegu', cursive;
    }
-	
-	   .int-area2 input{
-      width: 100%;
-      padding: 20px 10px 10px;
-      background-color: transparent;
-      border: none;
-      border-bottom: 2px solid white;
-      font-size: 18px; color: #999;
-      outline: none;
-      font-family: 'Gaegu', cursive;
-   }
-   .int-area2 label {
-      position: absolute; left: 10px; top: 15px;
-      font-size: 18px; color:#999;
-      transition: all .5s ease;
-      font-family: 'Gaegu', cursive;
-      top: -2px;
-      font-size: 13px; color: white;
-      font-family: 'Gaegu', cursive;
-   }
-
+   
 
    .int-area input:focus + label,
    .int-area input:valid + label {
-         top: -2;    
-      font-size: 13px; color: white;
-      font-family: 'Gaegu', cursive;
-   
-   }
-      .int-area2 input:focus + label,
-   .int-area2 input:valid + label {
-        top: -2;    
+      top: 0;    
       font-size: 13px; color: white;
       font-family: 'Gaegu', cursive;
    
@@ -118,8 +79,8 @@
       font-size: 20px;
       border: none;
       border-radius: 25px; 
-      cursor: pointer;
       font-family: 'Gaegu', cursive;
+      cursor: pointer;
    }
    
    .caption {
@@ -133,50 +94,65 @@
       font-family: 'Gaegu', cursive;
    }
 
-
-
 </style>
 </head>
 <body class="body">
+
 <%@include file="../include/header.jsp" %>
+
+   <script src="${pageContext.request.contextPath}/resources/vendor/jquery/jquery.min.js"></script>
 <div class="main">
    <section class="login-form">
       <h1>냉장고일지도</h1>
-      <form action="updateInfo" method="post">  
-       <div class="int-area2">
-            <input type="text" class="check1" name="user_id" value="${vo.user_id } "
-            autocomplete="off" readonly>
-            <label for="user_id">ID</label>  
-        	 </div>
-         <div class="int-area2">
-            <input type="text" class="check1"name="user_nick" value="${vo.user_nick }"
-            autocomplete="off" readonly>
-            <label for="user_nick">NICKNAME</label>
+      <form action="/user/loginForm" method="post" name="loginForm" id="loginForm"> 
+         <div class="int-area">
+            <input type="text" name="user_id" id="user_id"
+            autocomplete="off">
+            <label for="id">ID</label>
          </div>
          <div class="int-area">
-            <input type="password" name="user_pw" value="${vo.user_pw }"
-            autocomplete="off" readonly>
-            <label for="user_pw">PASSWORD</label>
-         </div>
-         <div class="int-area">
-            <input type="password" name="user_pwCheck" value="${vo.user_pw }"
-            autocomplete="off" readonly>
-            <label for="user_pwCheck">PASSWORD CHECK</label>
-         </div>
-         <div class="int-area">
-            <input type="email" name="user_email"  value="${vo.user_email }"
-            autocomplete="off" readonly>
-            <label for="user_email">EMAIL</label>
+            <input type="password" name="user_pw" id="user_pw"
+            autocomplete="off">
+            <label for="pw">PASSWORD</label>
          </div>
          <div class="btn-area">
-            <button onclick="location.href='updateInfo'">수정</button>
+            <button onclick="loginCheck(); return false;">로그인</button>
          </div>
       </form>
       <div class="caption">
-         <a href="/user/home">취소</a>
+         <a href="user/join">회원가입</a>
       </div>
    </section>
 </div>
-<%@include file="../include/footer.jsp" %>
+
+<script>
+
+
+function loginCheck() {
+	if( $("#user_id").val().length < 1) {
+		Swal.fire({title:"아이디를 입력하세요"});
+		return;
+	}else if( $("#user_pw").val().length < 1) {
+		Swal.fire({title:"비밀번호를 입력하세요"});
+		return;
+	}else {
+		$("#loginForm").submit();
+		return;
+	}
+}
+
+</script>
+
+<script>
+
+$(document).ready(function(){
+   var msg = '${msg}';
+   
+   if(msg != '') {
+	   Swal.fire(msg);
+   }
+});
+
+</script>
 </body>
 </html>

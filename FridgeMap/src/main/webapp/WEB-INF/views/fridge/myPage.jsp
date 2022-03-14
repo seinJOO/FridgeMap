@@ -121,7 +121,7 @@
 		                           		</li>
                           	</c:forEach>     
                         </ul>
-                        <div class="expCheck" style="margin-left:55px;"> <a href="myFridge" class="link">소비기한 확인하러 하기&#8640;</a> </div>  
+                        <div class="expCheck" style="margin-left:55px;"> <a href="fridgeMode" class="link">소비기한 확인하러 하기&#8640;</a> </div>  
                     </div>
                   </div>
                   <div class="tile is-child box" style="margin-bottom: 0px; height: 200px; padding-top:0px;">
@@ -136,7 +136,7 @@
                             </li>
                       	 	</c:forEach>
                         </ul> 
-                         <div class="budgetCheck" style="margin-left:70px;"> <a href="##" class="link">가계부 확인하러 하기&#8640;</a> </div> 
+                         <div class="budgetCheck" style="margin-left:70px;"> <a href="/budget/main" class="link">가계부 확인하러 하기&#8640;</a> </div> 
                     </div>
                 </div>
                   <div class="tile is-child box" style="padding-top:0px;">
@@ -155,7 +155,7 @@
                                           
                           	</c:forEach> 
                         </ul>  
-                         <div class="boardCheck" style="margin-left:70px; color:red;"> <a href="##" class="link">게시판 확인하러 하기&#8640;</a> </div>
+                         <div class="boardCheck" style="margin-left:70px; color:red;"> <a href="/board/category?board_category=myContents" class="link">게시판 확인하러 하기&#8640;</a> </div>
                     </div>
                   </div>
                 </div>

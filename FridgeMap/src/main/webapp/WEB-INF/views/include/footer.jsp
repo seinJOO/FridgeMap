@@ -86,7 +86,7 @@
         <table align="center">
             <tr>
                 <td style="text-align: center;">
-                    <a href="#" style="text-align: center;">
+                    <a href="/user/home" style="text-align: center;">
                         <i class="fas fa-home fa-2x"></i>
                     </a>
                 </td>

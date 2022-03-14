@@ -102,13 +102,14 @@ public class BoardController {
 	
 	// 글 보기 기능 + 조회수
 	@RequestMapping("/viewContent")
-	public String viewContent(Model model, @RequestParam("board_num") String board_num, Criteria cri, HttpServletRequest request, HttpServletResponse response, HttpSession session) {		
+	public String viewContent(Model model, @RequestParam("board_num") String board_num, Criteria cri, HttpServletRequest request, HttpServletResponse response, HttpSession session) {	
 		BoardVO bvo = service.getContent(Integer.parseInt(board_num));
-		ArrayList<CommentVO> cvo = service.getComment(Integer.parseInt(board_num));
-		LikeVO vo = new LikeVO(Integer.parseInt(board_num),(String) session.getAttribute("user_id"));
-		int result = service.userLiked(vo); //해당 글을 유저가 좋아요 했는지 가져오기
-		
 		service.upHit(bvo, request, response);
+		bvo = service.getContent(Integer.parseInt(board_num));
+		ArrayList<CommentVO> cvo = service.getComment(Integer.parseInt(board_num));
+		LikeVO lvo = new LikeVO(Integer.parseInt(board_num),(String) session.getAttribute("user_id"));
+		int result = service.userLiked(lvo); //해당 글을 유저가 좋아요 했는지 가져오기
+		
 		model.addAttribute("result",result);
 		model.addAttribute("board",bvo);
 		model.addAttribute("comment",cvo);
@@ -129,6 +130,7 @@ public class BoardController {
 	@RequestMapping("/modiForm")
 	public String modifyForm(Model model, BoardVO vo, Criteria cri) {
 		service.modifyContent(vo);
+		vo = service.getContent(vo.getBoard_num());
 		ArrayList<CommentVO> cvo = service.getComment(vo.getBoard_num());
 		model.addAttribute("board",vo);
 		model.addAttribute("comment",cvo);

@@ -110,7 +110,7 @@ public class BoardServiceImpl implements BoardService {
 	
 		//쿠키 생성(처음에 쿠키값이 있는지 확인한 후에 업데이트 된 hit값을 넣어줘야 하기 때문에 쿠키는 마지막에 생성!)
 		Cookie cookie = new Cookie("hitNum"+board_num, String.valueOf(board_view));
-		cookie.setMaxAge(60*60);
+		cookie.setMaxAge(60);
 		response.addCookie(cookie);
 	}
 

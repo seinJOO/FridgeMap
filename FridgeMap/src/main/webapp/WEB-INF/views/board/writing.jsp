@@ -40,6 +40,7 @@ body {
 </style>
 </head>
 <body>
+<%@ include file="../include/footer.jsp" %>
 	<div class="container box p-6 has-background-light" style="margin-top:5%;">
 	<h1 class="title has-text-centered has-text-success">글쓰기</h1>
 	<h2 class="subtitle has-text-centered 400">	자유롭게 이야기를 나눠보세요 ! </h2>

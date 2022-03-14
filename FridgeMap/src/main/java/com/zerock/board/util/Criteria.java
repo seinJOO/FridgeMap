@@ -10,6 +10,7 @@ public class Criteria {
 	private int count; // 몇 개의 데이터를 게시판에 출력할지 결정
 	private String board_category;
 	private String keyword;
+	private String user_id;
 	
 	public Criteria() {
 		// 최초 게시판에 진입할 때 기본값 1번 페이지, 10개 데이터 세팅
@@ -72,6 +73,14 @@ public class Criteria {
 
 	public void setBoard_category(String board_category) {
 		this.board_category = board_category;
+	}
+
+	public String getUser_id() {
+		return user_id;
+	}
+
+	public void setUser_id(String user_id) {
+		this.user_id = user_id;
 	}
 
 

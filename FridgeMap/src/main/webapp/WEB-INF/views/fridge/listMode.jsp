@@ -3,6 +3,7 @@
 <body>
     <div class="container is-widescreen" style="margin: 20px auto;">
         <%@include file="fridgeHeader.jsp" %>
+        <%@ include file="../include/footer.jsp" %>
             <div class="tile is-ancestor" style="margin-top: 30px;">
                 <div class="tile is-4 is-parent buttons">
                     <button class="button is-black" id="allList" onclick="changeTable('all')">

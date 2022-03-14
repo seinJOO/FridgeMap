@@ -1,9 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
-
-
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="f" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -17,24 +15,24 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
 <style>
-#fonts {
+body {
 	font-family: 'Poor Story', cursive;
 	font-weight : 500;
 	font-size : 20px; 
 	font-color : black;
 }
-#fonts strong {
+ strong {
  	font-size: 20px; 
     font-family: 'Poor Story', cursive;
  }
  
-#fonts h1, a {
+ h1, a {
  	font-family: 'Poor Story', cursive;
 	font-weight : 600;
 	font-size : 20px; 
  }
  
-#fonts span, button {
+ span, button {
  	font-family: 'Poor Story', cursive;
 	font-weight : 500;
 	font-size : 18px; 
@@ -43,8 +41,8 @@
 </head>
 <body>
 <%@ include file="../include/footer.jsp" %>
-<div class="container" id="fonts">
-<div class="tile is-ancestor"  style="margin-top : 5%">
+<div class="container">
+<div class="tile is-ancestor" style="margin-top : 5%">
 <div class="tile is-parent is-vertical">
 <div class="tile is-child box">
   	<h1 class="title is-5 has-text-grey">
@@ -53,12 +51,12 @@
 
   <div class="tabs is-boxed">
     <ul>
-      <li class="tab is-active"><a href="category?board_category=main">전체보기</a></li>
+      <li class="tab"><a href="category?board_category=main">전체보기</a></li>
       <li class="tab"><a href="category?board_category=vers">자랑매치</a></li>
       <li class="tab"><a href="category?board_category=tips">꿀팁줍줍</a></li>
       <li class="tab"><a href="category?board_category=qna">우리끼리Q&amp;A</a></li>
       <c:if test="${sessionScope.user_id != '' }">
-      <li class="tab"><a href="category?board_category=myContents">내 글 보기</a></li>
+      <li class="tab is-active"><a href="category?board_category=myContents">내 글 보기</a></li>
       </c:if>
     </ul>
     <div style="float:right; margin: auto 40px;"> 
@@ -69,7 +67,7 @@
 <div class="list has-hoverable-list-items">  
 <div class="tile is-child">   
  <c:forEach var="list" items="${list }" varStatus = "num">
-   <div class="list-item">
+    <div class="list-item">
 	  <div class="list-item-image">
 	  <figure class="image is-48x48">
 	  <c:if test="${list.board_category == 'vers'}">
@@ -84,18 +82,19 @@
       </figure>
 	  </div>
 
+	  <c:if test="${list.board_title }.length() > 12"></c:if>
       <div class="tite"><a onclick="getContent('${pageMaker.cri.board_category}','${pageMaker.pageNum}', '${list.board_num}')"><strong>${list.board_title }</strong></a></div>
       <div class="nick">${list.user_nick }</div>
       <div class="list-item-description">
             <div class="tag is-rounded">방문자 : ${list.board_view }</div>
             <div class="tag is-rounded">댓글수 : ${list.cmtCount }</div>
             <div class="tag is-rounded">좋아요 : ${list.board_like }</div>
-            <div class="tag is-rounded"><fmt:formatDate value="${list.board_regdate }" pattern="yyyy.MM.dd"/></div>
+            <div class="tag is-rounded"><f:formatDate value="${list.board_regdate }" pattern="yyyy.MM.dd"/></div>
       </div>
     <div class="list-item-controls edit">
       <div class="buttons is-right">
       <c:if test="${list.user_id == sessionScope.user_id }"> <!-- 세션에 아이디 어떻게 저장했는지 확인하기 -->
-        <button class="button" type="button" onclick="goModify('${pageMaker.cri.board_category }','${pageMaker.pageNum }','${list.board_num }')">
+        <button class="button" type="button" onclick="goModify('${pageMaker.cri.board_category }','${cri.pageNum }','${board.board_num }')">
           <span class="icon is-small">
             <i class="fas fa-edit"></i>
           </span>
@@ -107,18 +106,11 @@
             <i class="far fa-hand-pointer"></i>
           </span>
         </button>
-        <%-- <button class="button">
+        <button class="button">
         	<span class="icon is-small">
-        	
-          <c:choose>          
-	      <c:when test="${list.board_num eq hearts.board_num }">
-	      <i class="fas fa-heart"></i>
-	      </c:when>
-	      <c:otherwise>
-	      <i class="fas fa-heart-circle"></i>     
-	      </c:otherwise> 
-	      </c:choose>
-	      </span></button> --%>
+       		 <i class="fas fa-heart" style="color:red"></i>
+      		</span>
+        </button>
       </div>
     </div>    
  </div>
@@ -140,6 +132,7 @@
     </button>
     </div>
 </form>
+
 </div>
 <div class="tile is-child">
 <nav class="pagination is-centered" role="navigation" aria-label="pagination">
@@ -206,33 +199,6 @@
         form2.appendChild(hiddenField);	
         document.body.appendChild(form2);
         form2.submit();
-	}
-	
-	function goModify(board_category, pageNum, board_num) {
-		var form3 = document.createElement("form");
-	    form3.setAttribute("charset", "UTF-8");
-	    form3.setAttribute("method", "Post");  //Post 방식
-	    form3.setAttribute("action", "modify"); //요청 보낼 주소
-
-	    var hiddenField = document.createElement("input");
-	    hiddenField.setAttribute("type", "hidden");
-	    hiddenField.setAttribute("name", "board_category");
-	    hiddenField.setAttribute("value", board_category);
-	    form3.appendChild(hiddenField);
-
-	    hiddenField = document.createElement("input");
-	    hiddenField.setAttribute("type", "hidden");
-	    hiddenField.setAttribute("name", "pageNum");
-	    hiddenField.setAttribute("value", pageNum);
-	    form3.appendChild(hiddenField);
-	    
-	    hiddenField = document.createElement("input");
-	    hiddenField.setAttribute("type", "hidden");
-	    hiddenField.setAttribute("name", "board_num");
-	    hiddenField.setAttribute("value", board_num);
-	    form3.appendChild(hiddenField);
-	    document.body.appendChild(form3);
-	    form3.submit();
 	}
 </script>
 </body>

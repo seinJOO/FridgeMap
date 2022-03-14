@@ -13,6 +13,7 @@ public interface BoardMapper {
 	public ArrayList<BoardVO> getAllList(Criteria cri);
 	public ArrayList<BoardVO> getKeywordList(Criteria cri);
 	public ArrayList<BoardVO> getCategoryList(Criteria cri);
+	public ArrayList<BoardVO> getMyList(Criteria cri);
 	public int getTotal();
 	public int getCateTotal(Criteria cri);
 	public int getKeyTotal(Criteria cri);

@@ -40,7 +40,7 @@ body {
 </style>
 </head>
 <body>
-
+<%@ include file="../include/footer.jsp" %>
 <div class="container">
 <div class="tile is-ancestor" style="margin-top : 5%">
 <div class="tile is-parent is-vertical">
@@ -55,6 +55,9 @@ body {
       <li class="tab"><a href="category?board_category=vers">자랑매치</a></li>
       <li class="tab"><a href="category?board_category=tips">꿀팁줍줍</a></li>
       <li class="tab is-active"><a href="category?board_category=qna">우리끼리Q&amp;A</a></li>
+      <c:if test="${sessionScope.user_id != '' }">
+      <li class="tab"><a href="category?board_category=myContents">내 글 보기</a></li>
+      </c:if>
     </ul>
     <div style="float:right; margin: auto 40px;"> 
    <button class="button" type="button" onclick="goWrite('${pageMaker.pageNum}','${pageMaker.cri.board_category }')">글쓰기<i class="fas fa-keyboard" style="margin-left:5px;"></i></button>

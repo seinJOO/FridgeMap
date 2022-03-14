@@ -69,7 +69,8 @@ public class BoardController {
 	}
 	//첫 화면 이후 화면 페이징 및 연결
 	@RequestMapping("/category")
-	public String viewCate(Model model, Criteria cri) {
+	public String viewCate(Model model, Criteria cri, HttpSession session) {
+		cri.setUser_id((String)session.getAttribute("user_id"));
 		int total = service.getCateTotal(cri);
 		ArrayList<BoardVO> vo =  service.getCategoryList(cri);	
 		model.addAttribute("list", vo);
@@ -78,9 +79,10 @@ public class BoardController {
 		return "board/"+cri.getBoard_category()+"List";	
 	}
 	
-	// 제목 검색 기능
+	// 키워드 검색 기능
 	@RequestMapping("/search")
-	public String search(Criteria cri, Model model) {
+	public String search(Criteria cri, Model model, HttpSession session) {
+		cri.setUser_id((String)session.getAttribute("user_id"));
 		String category = cri.getBoard_category();
 		int total = service.getKeyTotal(cri);
 		ArrayList<BoardVO> vo = service.getKeywordList(cri);
@@ -90,7 +92,7 @@ public class BoardController {
 		return "board/"+category+"List";			
 	}
 	
-	// 글쓰기 기능 - 이미지 파일 업로드 적용 전 ㅠㅠㅠ
+	// 글쓰기 기능
 	@RequestMapping("/writeForm")
 	public String regist(BoardVO vo) {
 		service.regist(vo);

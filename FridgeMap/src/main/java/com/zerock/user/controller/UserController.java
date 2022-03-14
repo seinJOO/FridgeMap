@@ -37,7 +37,7 @@ public class UserController {
 	//홈 화면 처리
 	@RequestMapping("/home")
 	public String home() {
-		return "user/home";	
+		return "user/home";
 	}
 	
 	// 회원가입  처리 Join폼 처리

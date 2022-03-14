@@ -2,6 +2,7 @@
     pageEncoding="UTF-8"%>
 <div class="container is-widescreen" style="margin: 20px auto;">
     <%@include file="fridgeHeader.jsp" %>
+    <%@ include file="../include/footer.jsp" %>
         <div class="tile is-ancestor">
             <div class="tile is-8 is-vertical is-parent">
             

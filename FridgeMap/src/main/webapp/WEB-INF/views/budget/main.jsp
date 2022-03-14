@@ -1,4 +1,3 @@
-<%@page import="com.zerock.budget.command.PriceVO"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
@@ -14,39 +13,38 @@
 <link href="https://fonts.googleapis.com/css2?family=Poor+Story&display=swap" rel="stylesheet">
 <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js "></script>
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+
 <meta charset="UTF-8">
 <title>Budget</title>
 <style>
-body {
-	font-family: 'Poor Story', cursive;
-	font-weight : 800;
-	font-size : 20px; 
-	font-color : black;
-}
- strong {
+
+.fonts strong {
  	font-size: 20px; 
     font-family: 'Poor Story', cursive;
  }
- 
- h1, a {
+ .fonts{
  	font-family: 'Poor Story', cursive;
 	font-weight : 600;
 	font-size : 20px; 
  }
  
- span, button, p {
+.fonts h1, a, input {
+ 	font-family: 'Poor Story', cursive;
+	font-weight : 600;
+	font-size : 20px; 
+ }
+ 
+.fonts span, button, p {
  	font-family: 'Poor Story', cursive;
 	font-weight : 800;
 	font-size : 18px; 
- }
- .calheight {
- 	height : 60hv;
  }
 
 </style>
 </head>
 <body>
-<div class="container">
+<%@ include file="../include/footer.jsp" %>
+<div class="container fonts">
 <div class="tile is-ancestor">
 <div class="tile is-parent is-vertical">
 <div class="tile is-child box">
@@ -148,6 +146,7 @@ body {
 </div>
 </div>
 </div>
+
 
 	<script type="text/javascript">
 	  function showList(a) {

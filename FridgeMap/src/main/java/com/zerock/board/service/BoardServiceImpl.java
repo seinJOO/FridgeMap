@@ -43,7 +43,10 @@ public class BoardServiceImpl implements BoardService {
 
 	@Override
 	public ArrayList<BoardVO> getCategoryList(Criteria cri) {
-		ArrayList<BoardVO> vo = mapper.getCategoryList(cri);
+			ArrayList<BoardVO> vo = mapper.getCategoryList(cri);
+			if (cri.getBoard_category().equals("myContents")) {
+				vo = mapper.getMyList(cri);
+			}
 		return vo;
 	}
 

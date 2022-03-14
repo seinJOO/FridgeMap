@@ -32,7 +32,6 @@
       top: 0; right: 0; bottom: 0; left: 0;
       background-color: rgba(0,0,0,.7);
    }
-
    .login-form {position: relative; z-index: 2;}
    .login-form h1 {
       font-size: 50px; color: white;
@@ -62,7 +61,6 @@
       font-family: 'Gaegu', cursive;
    }
    
-
    .int-area input:focus + label,
    .int-area input:valid + label {
       top: 0;    
@@ -70,7 +68,6 @@
       font-family: 'Gaegu', cursive;
    
    }
-
    .btn-area {margin-top: 30px;}
    .btn-area button {
       width: 100%; height: 50px;
@@ -93,7 +90,6 @@
       text-decoration: none;
       font-family: 'Gaegu', cursive;
    }
-
 </style>
 </head>
 <body class="body">
@@ -126,8 +122,6 @@
 </div>
 
 <script>
-
-
 function loginCheck() {
 	if( $("#user_id").val().length < 1) {
 		Swal.fire({title:"아이디를 입력하세요"});
@@ -140,11 +134,9 @@ function loginCheck() {
 		return;
 	}
 }
-
 </script>
 
 <script>
-
 $(document).ready(function(){
    var msg = '${msg}';
    
@@ -152,7 +144,6 @@ $(document).ready(function(){
 	   Swal.fire(msg);
    }
 });
-
 </script>
 </body>
 </html>

@@ -18,14 +18,23 @@
 		SELECT *, (SELECT COUNT(*) FROM comment where comment.board_num = board.board_num) as cmtCount FROM board
 		<if test="board_category != 'main'">
 		WHERE board_category=#{board_category}
-		</if> 
+		</if>
 		ORDER BY board_num DESC limit #{pageStart},#{count}
+</select>
+<select id="getMyList" parameterType="com.zerock.board.util.Criteria" resultType="com.zerock.board.command.BoardVO">
+		SELECT *, (SELECT COUNT(*) FROM comment where comment.board_num = board.board_num) as cmtCount FROM board
+		WHERE user_id = #{user_id} ORDER BY board_num DESC limit #{pageStart},#{count}
 </select>
 
 <select id="getKeywordList" parameterType="com.zerock.board.util.Criteria" resultType="com.zerock.board.command.BoardVO">
-   SELECT *, (SELECT COUNT(*) FROM comment where comment.board_num = board.board_num) as cmtCount FROM board WHERE (board_title LIKE CONCAT('%',#{keyword},'%') OR board_content LIKE CONCAT('%',#{keyword},'%'))
+   SELECT *, (SELECT COUNT(*) FROM comment WHERE comment.board_num = board.board_num) as cmtCount FROM board WHERE (board_title LIKE CONCAT('%',#{keyword},'%') OR board_content LIKE CONCAT('%',#{keyword},'%'))
    <if test="board_category != 'main'">
-	AND board_category = #{board_category}
+	<if test="board_category != 'myContents'">
+	WHERE board_category=#{board_category}
+	</if>
+	</if>
+	<if test="board_category == 'myContents'">
+	AND user_id = #{user_id}
 	</if>
    ORDER BY board_num DESC LIMIT #{pageStart},#{count}
 </select>
@@ -37,15 +46,22 @@
 <select id="getCateTotal" parameterType="com.zerock.board.util.Criteria" resultType="int">
 	SELECT COUNT(*) FROM board 
 	<if test="board_category != 'main'">
+	<if test="board_category != 'myContents'">
 	WHERE board_category=#{board_category}
+	</if>
+	</if>
+	<if test="board_category == 'myContents'">
+	WHERE user_id = #{user_id}
 	</if>
 </select>
 
 <select id="getKeyTotal" parameterType="com.zerock.board.util.Criteria" resultType="int">
 	SELECT count(*) FROM board WHERE board_title LIKE CONCAT('%',#{keyword},'%')
 	<if test="board_category != 'main'">
-	AND board_category = #{board_category}
-	</if>	
+	<if test="board_category != 'myContents'">
+	WHERE board_category=#{board_category}
+	</if>
+	</if>
 </select>
 
 <insert id="regist" parameterType="com.zerock.board.command.BoardVO"><!-- 이미지 파일 적용 전 쿼리 ㅠㅠㅠㅠ -->

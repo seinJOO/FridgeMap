@@ -50,6 +50,7 @@ body {
 </style>
 </head>
 <body>
+<%@ include file="../include/footer.jsp" %>
 <div class="container">
 <div class="tile is-ancestor">
 <div class="tile is-parent is-vertical">

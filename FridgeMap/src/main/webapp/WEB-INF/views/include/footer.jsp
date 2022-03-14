@@ -1,233 +1,148 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
-<%@include file="../include/header.jsp"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-<!DOCTYPE html>
-<html>
-<head>
-<script
-	src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"> </script>
-<script src="//cdn.jsdelivr.net/npm/sweetalert2@11"> </script>
-<title>Home</title>
-<link rel="stylesheet"
-	href="https://cdn.jsdelivr.net/npm/bulma@0.9.3/css/bulma.min.css">
-<link rel="stylesheet"
-	href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
-	integrity="sha512-9usAa10IRO0HhonpyAIVpjrylPvoDwiPUiKdWk5t3PyolY1cOd4DSE0Ga+ri4AuTroPR5aQvXU9xC6qOPnzFeg=="
-	crossorigin="anonymous" referrerpolicy="no-referrer" />
-<script defer
-	src="http://use.fontawesome.com/releases/v5.15.3/js/all.js">
-     </script>
-<script src="https://kit.fontawesome.com/2592a58b49.js"
-	crossorigin="anonymous">   </script>
-<script type="text/javascript"
-	src="/node_modules/bulma-quickview/dist/bulma-quickview.min.js"></script>
-<link rel="preconnect" href="https://fonts.googleapis.com">
+   pageEncoding="UTF-8"%>
+<link href="https://cdn.staticaly.com/gh/hung1001/font-awesome-pro/4cac1a6/css/all.css" rel="stylesheet"
+    type="text/css" />
+<link href="https://fonts.googleapis.com/css2?family=Gaegu&display=swap" rel="stylesheet">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=display=swap"
-	rel="stylesheet">
-<title>Insert title here</title>
 <style>
-body {
-	margin: 0;
-}
+    .sidenav {
+        height: 100%;
+        width: 0;
+        position: fixed;
+        z-index: 1;
+        top: 0;
+        left: 0;
+        background-color: white;
+        overflow-x: hidden;
+        transition: 0.5s;
+        padding-top: 60px;
+        color: black;
+        font-size: 20px; 
+   		font-family: 'Gaegu', cursive;
+    }
 
-.title {
-	font-family: 'Gaegu', cursive;
-	font-size: 40px;
-	
-}
+    .sidenav a {
+        padding: 8px 8px 8px 32px;
+        text-decoration: none;
+        font-size: 25px;
+        color: #818181;
+        transition: 0.3s;
+    }
 
-.subtitle {
-	font-family: 'Gaegu', cursive;
-	font-size: 20px;
-}
+    .sidenav a:hover {
+        color: #f1f1f1;
+    }
 
-.hero {
-	text-align: center;
-}
+    .sidenav .closebtn {
+        position: absolute;
+        top: 0;
+        right: 10px;
+        font-size: 36px;
+        margin-left: 50px;
+    }
 
-input[id="menu"] {
-	display: none;
-}
+    @media screen and (max-height: 450px) {
+        .sidenav {
+            padding-top: 15px;
+        }
 
-input[id="menu"]+label {
-	display: block;
-	margin: 30px;
-	width: 60px;
-	height: 50px;
-	position: relative;
-	left: 0;
-	top: calc(50% -25px);
-	cursor: pointer;
-	transition: all .35s;
-}
+        .sidenav a {
+            font-size: 18px;
+        }
+    }
 
-input[id="menu"]+label span {
-	display: block;
-	border-radius: 30px;
-	background: #000;
-	width: 100%;
-	height: 5px;
-	position: absolute;
-	top: calc(50% -25px);
-	transition: all .35s;
-}
+    .float {
+        position: fixed;
+        width: 60px;
+        height: 60px;
+        bottom: 40px;
+        left: 40px;
+        border-radius: 50px;
+        text-align: center;
+        box-shadow: 2px 2px 3px #999;
+        display: table;
+        background-color: black;
+        text-decoration: none;
+        cursor: pointer;
+    }
 
-input[id="menu"]+label span:nth-chilsd(1) {
-	top: 0;
-}
-
-input[id="menu"]+label span:nth-chilsd(2) {
-	top: 50%;
-	transform: translateY(-50%);
-}
-
-input[id="menu"]+label span:nth-chilsd(3) {
-	bottom: 0;
-}
-
-input[id="menu"]:checked+label {
-	z-index: 0;
-}
-
-input[id="menu"]:checked+label span {
-	background: #fff;
-}
-
-input[id="menu"]:checked+label span:nth-chilsd(1) {
-	top: 50%;
-	transform: translateY(-50%) rotate(45deg);
-}
-
-input[id="menu"]:checked+label span:nth-chilsd(2) {
-	opacity: 0;
-}
-
-input[id="menu"]:checked+label span:nth-chilsd(3) {
-	bottom: 50%;
-	transform: translateY(50%) rotate(-45deg);
-}
-
-div[class="sidebar"] {
-	width: 500px;
-	height: 100%;
-	background-color: rgba(0, 0, 0, 0);
-	position: fixed;
-	top: 0;
-	left: -500px;
-	z-index: 1;
-	transition: all .35s;
-}
-
-input[id="menu"]:checked+label+div {
-	left: 0;
-}
-
-.sidebar {
-	color: black;
-}
-
-.sidebar_menu {
-	font-family: 'Gaegu', cursive;
-	font-size: 43px;
-	height: 100%;
-	text-align:center;
-	display: flex;
-	justify-content: center; 
-	align-items: center;
-	bold:700px;
-}
-
-
-tr {
-	height:150px;
-
-}
-table a {
-	color:black;
-}
-
-
+    .floatIcon {
+        display: table-cell;
+        vertical-align: middle;
+        text-decoration: none;
+        color: white;
+    }
 </style>
-</head>
-<body>
 
+<a href="#" class="float" onclick="openNav();">
+    <i class="fas fa-bars fa-2x floatIcon"></i>
+</a>
 
-	<div style="position: fixed; bottom: 0; height:150px; width:100%; ">
-		<div style="height:80px; width:100%;">	
-			<div style="width:20%; float:left;">
-				<input type="checkbox" id="menu">
-				 <label for="menu">
-				 <span></span>
-				 <span></span>
-				 <span></span>
-			</label>
-				<div class="sidebar">
-				<div
-					style="background-color: white; width: 450px; height: 100%; float: left;">
-					<table class="sidebar_menu">
-						<tr>
-							<td style="width:225px;"><a href="/fridge/myPage">마이페이지</a></td>
-							<td style="width:225px;"><a href="/fridge/myFridge">마이냉장고</a></td>
-							
+<div id="mySidenav" class="sidenav">
+    <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">
+        <i class="fas fa-times"></i>
+    </a>
+    <div style="height: 10%;">
+        <table align="center">
+            <tr>
+                <td style="text-align: center;">
+                    <a href="#" style="text-align: center;">
+                        <i class="fas fa-home fa-2x"></i>
+                    </a>
+                </td>
+            </tr>
+        </table>
+        
+    </div>
+    <hr>
+    <div style="height: 50%;">
+        
+        <table align="center">
+            <tr>
+                <td style="height: 120px;">
+                    <a href="/fridge/myPage">마이페이지</a>
+                </td>
+            </tr>
+            <tr>
+                <td style="height: 120px;">
+                    <a href="/fridge/fridgeMode">마이냉장고</a>
+                </td>
+            </tr>
+            <tr>
+                <td style="height: 120px;">
+                    <a href="/board/main">게시판</a>
+                </td>
+            </tr>
+            <tr>
+                <td style="height: 120px;">
+                    <a href="/budget/main">가계부</a>
+                </td>
+            </tr>
+        </table>
+        
+    </div>
+    <hr>
+    <div>
+        <table align="center">
+            <tr>
+                <td>
+                    <a href="/user/info">내정보</a>
+                </td>
+                <td>
+                    <a href="/user/logout">로그아웃</a>
+                </td>
+            </tr>
+        </table>
+        <hr>
+    </div>
+</div>
 
-						</tr>
-						<tr>
-							<td><a href="/board/##">게시판</a></td>
-							<td><a href="/budget/##">가계부</a></td>
-						</tr>
-						<tr>
-							<td><a href="/user/##">내정보</a></td>
-							<td>
-							<a href="/">로그아웃</a>
-						
-							</td>
-						</tr>
+<script>
+    function openNav() {
+        document.getElementById("mySidenav").style.width = "400px";
+    }
 
-					</table>
-
-				</div>
-				<div
-					style="background-color: rgba(0, 0, 0, 0); height: 100%; display: flex; justify-content: center; align-items: center;">
-					<button class="button is-ghost" onclick="unchecked()">
-						<i class="far fa-times-circle fa-2x" style="color: black;"></i>
-					</button>
-				</div>
-			</div>
-			</div>
-			<div style="width:60%; float:left; text-align:center;">
-				<p class="title" style="font-size: 60px;">FridgeMap</p>
-			</div>
-			
-			<div style="width:20%; float:left;">
-				
-			</div>
-		</div>
-		<div style="height:70px; width:100%; clear:both; ">
-			<div style="width:20%; float:left; color:white;">ddddddd</div>
-			
-			<div style="width:60%; float:left; text-align:center;">
-				 <p> 
-      <strong>FridgeMap</strong> by <a href="https://jgthms.com">codingKing</a>. The source code is licensed
-      <a href="http://opensource.org/licenses/mit-license.php">MIT</a>. The website content
-      is licensed <a href="http://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY NC SA 4.0</a>.
-    </p>
-			</div>
-			
-			<div style="width:20%; float:left;"></div>
-		</div>
-	</div>
-
- 
-	<script>
-	var quickviews = bulmaQuickview.attach(); // quickviews now contains an array of all Quickview instances
-		
-	function unchecked() {
-		$("#menu").removeAttr("checked");
-		
-	}
-	</script>
-</body>
-
-</html>
+    function closeNav() {
+        document.getElementById("mySidenav").style.width = "0";
+    }
+</script>

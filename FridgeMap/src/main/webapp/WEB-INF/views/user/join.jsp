@@ -221,9 +221,10 @@ body::before {
 		var user_id = $("#user_id").val(); 
 		var userId = {"user_id" : user_id};
 		
-		if(user_id.length < 4) {
-			Swal.fire({text:"아이디는 2글자 이상 입력하세요"});
-		} else {
+			if (idConfirm()){
+			Swal.fire({text:"영문자 또는 숫자 6~20자로 입력하세요 "})
+			return;
+  		 }else {
 			$.ajax({
 				type : "post",
 				url : "checkId",
@@ -254,8 +255,9 @@ body::before {
 		var user_nick = $("#user_nick").val();  
 		var userNick = {"user_nick" : user_nick}; 
 		
-		if(user_nick.length < 2) {
-			Swal.fire({text:"닉네임은 2글자 이상 입력하세요"});
+		if (nickConfirm()){
+ 			Swal.fire({text:"닉네임은 한글로만 입력하세요"})
+ 			return;	
 		} else {
 			$.ajax({
 				type : "post",
@@ -292,13 +294,43 @@ body::before {
 			return false;
 		}
 	}
+   
+   function idConfirm() {
+	    var user_id = document.getElementById("user_id").value;
+		var id = /^[a-z]+[a-z0-9]{5,19}$/g;
+	 	if(id.test(user_id)==false){
+			return true;	
+	 	} else {
+	 		return false;
+	 	}
+	}
+	
+   function nickConfirm() {
+	   var user_nick = document.getElementById("user_nick").value;
+		var nick = /[ㄱ-힣]/;
+		if(nick.test(user_nick)==false){
+			return true;
+		} else {
+			return false;
+		}
+	}
+   
+   function pwConfirm() {
+	   var user_pw = document.getElementById("user_pw").value;
+	   var pw = /^(?=.*[a-zA-z])(?=.*[0-9])(?=.*[$`~!@$!%*#^?&\\(\\)\-_=+]).{8,16}$/;
+		if(pw.test(user_pw)==false){
+			return true;
+		} else {
+			return false;
+		}
+	}
 
 
    function joinCheck() {
    			 if( $("#user_id").val()=="") {
    				Swal.fire("아이디를 입력하세요");
     			return;
-	         }else if( !$("#user_id").attr("readonly")) {
+   			}else if( !$("#user_id").attr("readonly")) {
 	        	 Swal.fire({title:"아이디 중복체크를 해야 합니다"});
 	         	return;
 
@@ -311,6 +343,9 @@ body::before {
 	         }else if( $("#user_pw").val().length < 1) {
 	        	 Swal.fire({title:"비밀번호를 입력하세요"});
 	         	return;
+	         }else if (pwConfirm()){
+	  			Swal.fire({text:"영문,숫자,특수문자를 조합한 8~16자로 입력하세요"})
+	 			return;	
 	         }else if( $("#user_pwCheck").val().length < 1) {
 	        	 Swal.fire("비밀번호를 입력하세요");
 		        return;	

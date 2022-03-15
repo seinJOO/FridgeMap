@@ -116,7 +116,7 @@
          </div>
       </form>
       <div class="caption">
-         <a href="user/join">회원가입</a>
+         <a href="/user/join">회원가입</a>
       </div>
    </section>
 </div>
